@@ -42,3 +42,12 @@ body {
 h1, h2, h3, h4 {
 	font-family: 'Ubuntu', sans-serif;
 }
+
+a {
+	text-decoration: auto;
+	color: red;
+}
+
+a:hover {
+	text-decoration: underline;
+}
