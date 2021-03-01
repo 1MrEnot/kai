@@ -34,3 +34,11 @@ header .container, main .container, footer .container {
 	min-width: 855px;
 	margin: auto;
 }
+
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4 {
+	font-family: 'Ubuntu', sans-serif;
+}
