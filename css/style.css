@@ -1,0 +1,16 @@
+body {
+	background-color: #faea30
+}
+
+header {
+	background-color: white;
+}
+
+main {
+	background-color: white;
+}
+
+
+header .container, main .container, footer .container {
+	min-width: 855px;
+}
