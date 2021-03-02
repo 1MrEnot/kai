@@ -24,6 +24,12 @@ body {
 
 main {
 	background: white;
+		overflow: auto;
+
+}
+
+img {
+	float: right;
 }
 
 header, main, footer {
