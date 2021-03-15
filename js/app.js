@@ -1,6 +1,39 @@
 "use strict";
 
-function main(toDos) {
+function organizeByTags(toDoObjects) {
+    // создание пустого массива для тегов
+    var tags = [];
+    // перебираем все задачи toDos
+    toDoObjects.forEach(function (toDo) {
+        // перебираем все теги для каждой задачи
+        toDo.tags.forEach(function (tag) {
+            // убеждаемся, что этого тега еще нет в массиве
+            if (tags.indexOf(tag) === -1) {
+                tags.push(tag);
+            }
+        });
+    });
+
+    var tagObjects = tags.map(function (tag) {
+        // здесь мы находим все задачи,
+        // содержащие этот тег
+        var toDosWithTag = [];
+        toDoObjects.forEach(function (toDo) {
+            // проверка, что результат indexOf is *не* равен -1
+            if (toDo.tags.indexOf(tag) !== -1) {
+                toDosWithTag.push(toDo.description);
+            }
+        });
+        // мы связываем каждый тег с объектом, который
+        // содержит название тега и массив
+        return { "name": tag, "toDos": toDosWithTag };
+    });
+
+    return tagObjects;
+};
+
+
+function main() {
     $(".tabs a span").toArray().forEach(function (element) {
         var $element = $(element);
 
@@ -13,68 +46,25 @@ function main(toDos) {
 
             if ($element.parent().is(":nth-child(1)")) {
                 $content = $("<ul>");
-                for (var i = toDos.length-1; i >= 0; i--) {
-                    $content.append($("<li>").text(toDos[i]));
+                for (var i = toDoObjects.length-1; i >= 0; i--) {
+                    $content.append($("<li>").text(toDoObjects[i].description));
                 }
 
             } else if ($element.parent().is(":nth-child(2)")) {
                 $content = $("<ul>");
-                toDos.forEach(function (todo) {
-                    $content.append($("<li>").text(todo));
+                toDoObjects.forEach(function (todo) {
+                    $content.append($("<li>").text(todo.description));
                 });
 
             }
             else if ($element.parent().is(":nth-child(3)")) {
-                console.log("щелчок на вкладке Теги");
-                var organizedByTag = [
-                    {
-                      "name": "покупки",
-                      "toDos": [
-                        "Купить продукты"
-                      ]
-                    },
-                    {
-                      "name": "рутина",
-                      "toDos": [
-                        "Купить продукты",
-                        "Вывести Грейси на прогулку в парк"
-                      ]
-                    },
-                    {
-                      "name": "писательство",
-                      "toDos": [
-                        "Сделать несколько новых задач",
-                        "Закончить писать книгу"
-                      ]
-                    },
-                    {
-                      "name": "работа",
-                      "toDos": [
-                        "Сделать несколько новых задач",
-                        "Подготовиться к лекции в понедельник",
-                        "Ответить на электронные письма",
-                        "Закончить писать книгу"
-                      ]
-                    },
-                    {
-                      "name": "преподавание",
-                      "toDos": [
-                        "Подготовиться к лекции в понедельник"
-                      ]
-                    },
-                    {
-                      "name": "питомцы",
-                      "toDos": [
-                        "Вывести Грейси на прогулку в парк "
-                      ]
-                    }
-                ]
-                
+                let organizedByTag = organizeByTags(toDoObjects);
+
                 organizedByTag.forEach(function (tag) {
                     var $tagName = $("<h3>").text(tag.name),
                     $content = $("<ul>");
-                    tag.toDos.forEach(function (description) {
-                        var $li = $("<li>").text(description);
+                    tag.toDos.forEach(function (todo) {
+                        var $li = $("<li>").text(todo);
                         $content.append($li);
                     });
                     $("main .content").append($tagName);
@@ -82,18 +72,37 @@ function main(toDos) {
                 });
             
             } else if ($element.parent().is(":nth-child(4)")) {
-                var $input = $("<input>");
+                var $descrInput = $("<input>");
+                var $tagInput = $("<input>");
                 var $button = $("<button>").text("+");
 
+                var descrPart = $("<div>");
+                descrPart.append($("<div>").text("Описание"))
+                    .append($descrInput);
+
+                var tagsPart = $("<div>");
+                tagsPart.append($("<div>").text("Теги"))
+                    .append($tagInput)
+                    .append($button);
+
+                $content = $("<div>")
+                    .append(descrPart)
+                    .append(tagsPart);
+
                 $button.on("click", function () {
-                    if ($input.val() !== "") {
-                        toDos.push($input.val());
-                        $input.val("");
+                    if ($descrInput.val() !== "" || $tagInput.val() !== "") {
+                        let descr = $descrInput.val();
+                        let tags = $tagInput.val().split(",");
+                        toDoObjects.push({
+                            "description": descr,
+                            "tags": tags
+                        });
+
+                        $descrInput.val("");
+                        $tagInput.val("");
                         $(".tabs a:first-child span").trigger("click");
                     }
                 });
-
-                $content = $("<div>").append($input).append($button);
             }
 
             $("main .content").append($content);
@@ -105,12 +114,13 @@ function main(toDos) {
     $(".tabs a:first-child span").trigger("click");
 };
 
+var toDoObjects = {};
+
+
 $(document).ready(function(){
-    $.getJSON("todos.json", function (toDoObjects) {
-        let descr = toDoObjects.map(function(t){
-            return t.description;
-        })
-        main(descr);
+    $.getJSON("todos.json", function (objects) {
+        toDoObjects = objects;
+        main();
     });
 });
 
