@@ -40,6 +40,7 @@ function main() {
                     if ($input.val() !== "") {
                         toDos.push($input.val());
                         $input.val("");
+                        $(".tabs a:first-child span").trigger("click");
                     }
                 });
 
