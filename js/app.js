@@ -20,7 +20,7 @@ function main() {
                 $list = $("<ul>");
 
             if ($element.parent().is(":nth-child(1)")){
-                for (var i = toDos.length; i > -1; i--) {
+                for (var i = toDos.length - 1; i > -1; i--) {
                     $list.append($("<li>").text(toDos[i]));
                 }
                 $("main .content").append($list);
