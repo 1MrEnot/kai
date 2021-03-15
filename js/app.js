@@ -11,31 +11,42 @@ function main() {
     ];
 
     $(".tabs a span").toArray().forEach(function (element) {
-        $(element).on("click", function () {
+        var $element = $(element);
+
+        $element.on("click", function () {
+            var $content;
+
             $(".tabs a span").removeClass("active");
-            $(element).addClass("active");
-            $("main .content ul").empty();
+            $element.addClass("active");
+            $("main .content").empty();
 
-            var $element = $(element), 
-                $list = $("<ul>");
-
-            if ($element.parent().is(":nth-child(1)")){
-                for (var i = toDos.length - 1; i > -1; i--) {
-                    $list.append($("<li>").text(toDos[i]));
+            if ($element.parent().is(":nth-child(1)")) {
+                $content = $("<ul>");
+                for (var i = toDos.length-1; i >= 0; i--) {
+                    $content.append($("<li>").text(toDos[i]));
                 }
-                $("main .content").append($list);
-            }
 
-            if ($element.parent().is(":nth-child(2)")){
+            } else if ($element.parent().is(":nth-child(2)")) {
+                $content = $("<ul>");
                 toDos.forEach(function (todo) {
-                    $list.append($("<li>").text(todo));
+                    $content.append($("<li>").text(todo));
                 });
-                $("main .content").append($list);
+
+            } else if ($element.parent().is(":nth-child(3)")) {
+                var $input = $("<input>");
+                var $button = $("<button>").text("+");
+
+                $button.on("click", function () {
+                    if ($input.val() !== "") {
+                        toDos.push($input.val());
+                        $input.val("");
+                    }
+                });
+
+                $content = $("<div>").append($input).append($button);
             }
 
-            if ($element.parent().is(":nth-child(3)")){
-                console.log("3 click");
-            }
+            $("main .content").append($content);
 
             return false;
         });
