@@ -81,20 +81,29 @@ class Listener implements Runnable {
                 String arrValue = "";
                 boolean setResult = false;
 
-                if (type.equals("int")){
-                    setResult = SetInt(x, y, value);
-                    arrValue = GetInts();
+                try{
+                    if (type.equals("int")){
+                        setResult = SetInt(x, y, value);
+                        arrValue = GetInts();
+                    }
+                    if (type.equals("double")){
+                        setResult = SetDouble(x, y, value);
+                        arrValue = GetDoubles();
+                    }
+                    if (type.equals("string")) {
+                        setResult = SetString(x, y, value);
+                        arrValue = GetStrings();
+                    }
                 }
-                if (type.equals("double")){
-                    setResult = SetDouble(x, y, value);
-                    arrValue = GetDoubles();
-                }
-                if (type.equals("string")) {
-                    setResult = SetString(x, y, value);
-                    arrValue = GetStrings();
+                catch (Exception e){
+                    return "INVALID COMMAND";
                 }
 
-                return "SUCCESS: " + setResult + " | " + arrValue;
+                if (!setResult){
+                    return "YOU HAVE NO PERMISSIONS";
+                }
+
+                return "SUCCESS: " + arrValue;
 
             }
             else{
@@ -110,7 +119,9 @@ class Listener implements Runnable {
             }
 
         }
-        catch (Exception ignored){}
+        catch (Exception ignored){
+
+        }
 
         return res;
     }
@@ -128,7 +139,7 @@ class Listener implements Runnable {
     }
 
     private boolean CanSet(int x, int y){
-        return x == 0;
+        return Arrays.stream(server.forbiddenRows).anyMatch(el -> el == x);
     }
 
     private boolean SetInt(int x, int y, String value){
@@ -136,13 +147,8 @@ class Listener implements Runnable {
             return false;
         }
 
-        try{
-            server.integers[x][y] = Integer.parseInt(value);
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+        server.integers[x][y] = Integer.parseInt(value);
+        return true;
     }
 
     private boolean SetDouble(int x, int y, String value){
@@ -150,13 +156,8 @@ class Listener implements Runnable {
             return false;
         }
 
-        try{
-            server.doubles[x][y] = Double.parseDouble(value);
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+        server.doubles[x][y] = Double.parseDouble(value);
+        return true;
     }
 
     private boolean SetString(int x, int y, String value){
@@ -164,13 +165,8 @@ class Listener implements Runnable {
             return false;
         }
 
-        try{
-            server.strings[x][y] = value;
-            return true;
-        }
-        catch (Exception e){
-            return false;
-        }
+        server.strings[x][y] = value;
+        return true;
     }
 
     private String GetInts(){

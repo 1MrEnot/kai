@@ -6,7 +6,9 @@ import java.net.*;
 public class Server {
     public final int port;
     private ServerSocket serverSocket;
-    private PrintWriter log;
+    private final PrintWriter log;
+
+    final int[] forbiddenRows;
 
     int[][] integers = {
         {1, 2},
@@ -26,9 +28,11 @@ public class Server {
             {"spam", "eggs"}
     };
 
-    public Server(int port, PrintWriter log) {
+    public Server(int port, PrintWriter log, int[] forbiddenRows) {
         this.port = port;
         this.log = log;
+        this.forbiddenRows = forbiddenRows;
+
         try{
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
