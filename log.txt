@@ -1,5 +1,0 @@
-Chet < 0: 2
-Nechet > 0: 1
-Var chahged times: 2
-Read from console times: 1
-Printed to console times: 4

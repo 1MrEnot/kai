@@ -77,6 +77,7 @@ class Listener implements Runnable {
 
             String value = matcher.group(5);
 
+            // SET
             if (value != null){
                 String arrValue = "";
                 boolean setResult = false;
@@ -106,6 +107,7 @@ class Listener implements Runnable {
                 return "SUCCESS: " + arrValue;
 
             }
+            // GET
             else{
                 if (type.equals("int")){
                     return Integer.toString(GetInt(x, y));
@@ -139,7 +141,7 @@ class Listener implements Runnable {
     }
 
     private boolean CanSet(int x, int y){
-        return Arrays.stream(server.forbiddenRows).anyMatch(el -> el == x);
+        return Arrays.stream(server.forbiddenRows).noneMatch(el -> el == x);
     }
 
     private boolean SetInt(int x, int y, String value){
