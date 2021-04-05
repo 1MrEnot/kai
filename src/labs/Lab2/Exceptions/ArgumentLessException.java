@@ -1,4 +1,4 @@
-package com.company.Lab2.Exceptions;
+package labs.Lab2.Exceptions;
 
 public class ArgumentLessException extends Exception{
 

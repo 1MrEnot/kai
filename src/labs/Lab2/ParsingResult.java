@@ -1,4 +1,4 @@
-package com.company.Lab2;
+package labs.Lab2;
 
 public class ParsingResult {
 

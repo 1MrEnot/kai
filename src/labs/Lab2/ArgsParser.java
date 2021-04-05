@@ -1,8 +1,8 @@
-package com.company.Lab2;
+package labs.Lab2;
 
-import com.company.Lab2.Exceptions.ArgumentLessException;
-import com.company.Lab2.Exceptions.BadSymbolException;
-import com.company.Lab2.Exceptions.FondLiteralException;
+import labs.Lab2.Exceptions.ArgumentLessException;
+import labs.Lab2.Exceptions.BadSymbolException;
+import labs.Lab2.Exceptions.FondLiteralException;
 
 public class ArgsParser implements IArgsParser{
 
