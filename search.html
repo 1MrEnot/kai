@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/search.js"></script>
+
+    <title>Planer: Поиск</title>
+</head>
+<body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <div class="container-sm container-fluid">
+            <a class="navbar-brand" href="#">Planer</a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="#">Поиск</a>
+                <a class="nav-link" href="#">Личный кабинет</a>
+                <a class="nav-link" href="#">Выход</a>
+              </div>
+          </div>
+    </nav>
+
+    <div class="container-sm">
+        <div class="row my-2">
+
+            <div class="col-xxl-4 search">
+                <!-- Города вылета и прилёта-->
+                <div class="row my-2">
+                    <div class="col-6 d-flex">
+                        <input class="flex-fill" type="search" placeholder="Откуда">
+                    </div>
+                    <div class="col-6 d-flex">
+                        <input class="flex-fill" type="search" placeholder="Куда">
+                    </div>
+                </div>
+
+                <!-- Дата вылета-->
+                <div class="row my-2">
+                    <div class="col-6 d-flex">
+                        <input class="form-inline flex-fill" type="date" placeholder="Дата вылета">
+                    </div>
+                    <div class="col-6 d-flex">
+                        <select class="flex-fill">
+                            <option disabled selected>Класс билетов</option>
+                            <option>Эконом</option>
+                            <option>Бизнес</option>
+                          </select>
+                    </div>
+                </div>
+
+                <!-- Поиск -->
+                <div class="row my-2">
+                    <div class="col d-flex">
+                        <input class="flex-fill" type="button" value="Поиск">
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Колонка билетов -->
+            <div class="col-xxl-8" id="ticket-list">
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
