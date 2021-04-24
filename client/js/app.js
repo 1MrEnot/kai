@@ -89,14 +89,15 @@ function main() {
                     .append(descrPart)
                     .append(tagsPart);
 
-                $button.on("click", function () {
+                $button.on("click", () => {
                     if ($descrInput.val() !== "" || $tagInput.val() !== "") {
-                        let descr = $descrInput.val();
-                        let tags = $tagInput.val().split(",");
-                        toDoObjects.push({
-                            "description": descr,
-                            "tags": tags
-                        });
+                        let newTodo = {
+                            "description": $descrInput.val(),
+                            "tags": $tagInput.val().split(',')
+                        };
+
+                        $.post("todos.json", newTodo);
+                        toDoObjects.push(newTodo);
 
                         $descrInput.val("");
                         $tagInput.val("");
