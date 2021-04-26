@@ -2,6 +2,8 @@ import express from 'express'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
+const userController = require("./controllers/userController.js");
+
 
 const port = 3000;
 const mongoUrl = "mongodb://localhost:27017/amazeriffic";
@@ -12,56 +14,9 @@ app.use(express.static(__dirname + "/client"))
 app.use(express.urlencoded())
 
 mongoose.connect(mongoUrl);
-let toDoSchema = mongoose.Schema({
-    description: String,
-    tags: [String]
-});
-let ToDo = mongoose.model("ToDo", toDoSchema);
 
+app.get("/users.json", userController.index);
 
-let toDos = [
-    {
-       "description":"Купить продукты",
-       "tags":[
-          "шопинг",
-          "рутина"
-       ]
-    },
-    {
-       "description":"Сделать несколько новых задач",
-       "tags":[
-          "писательство",
-          "работа"
-       ]
-    },
-    {
-       "description":"Подготовиться к лекции в понедельник",
-       "tags":[
-          "работа",
-          "преподавание"
-       ]
-    },
-    {
-       "description":"Ответить на электронные письма",
-       "tags":[
-          "работа"
-       ]
-    },
-    {
-       "description":"Вывести Грейси на прогулку в парк",
-       "tags":[
-          "рутина",
-          "питомцы"
-       ]
-    },
-    {
-       "description":"Закончить писать книгу",
-       "tags":[
-          "писательство",
-          "работа"
-       ]
-    }
-];
 
 app.get('/todos.json', (req, res) => {
     ToDo.find({}, (err, toDos) => {
