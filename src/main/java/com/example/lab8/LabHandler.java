@@ -2,10 +2,12 @@ package com.example.lab8;
 
 public class LabHandler {
     private String numbers;
+    public boolean flag;
     int min = 2;
 
     public LabHandler(){
         numbers = "";
+        flag = false;
     }
 
     public String getNumbers() {
@@ -22,8 +24,8 @@ public class LabHandler {
         String[] splited = numbers.split("\\s+");
 
         for (String el: splited) {
-            int num = Integer.getInteger(el);
-            if(num < min)
+            int num = Integer.parseInt(el);
+            if(num <= min)
                 continue;
 
             res *= num;
@@ -34,5 +36,9 @@ public class LabHandler {
 
     public int getMin() {
         return min;
+    }
+
+    public boolean getFlag() {
+        return flag;
     }
 }

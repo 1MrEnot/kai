@@ -7,9 +7,20 @@
 
 <body>
 <jsp:useBean id="mybean" scope="session" class="com.example.lab8.LabHandler" />
-<jsp:setProperty name="mybean" property="numbers" />
+<% mybean.setNumbers(request.getParameter("numbers"));%>
+<% mybean.flag = !mybean.flag;%>
 
-<h3>Произведение чисел, больших ${mybean.min}: ${mybean.res}</h3>
+
+<table border="1">
+    <tr>
+        <td>Произведение чисел, больших ${mybean.min}:</td>
+        <td>${mybean.res}</td>
+    </tr>
+</table>
+
+<form action="index.jsp">
+    <input type="submit" value="В начало"/>
+</form>
 
 </body>
 
