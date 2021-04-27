@@ -2,7 +2,6 @@ import express from 'express'
 import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
-const userController = require("./controllers/userController.js");
 
 
 const port = 3000;
@@ -15,8 +14,11 @@ app.use(express.urlencoded())
 
 mongoose.connect(mongoUrl);
 
-app.get("/users.json", userController.index);
-
+const ToDoSchema = mongoose.Schema({
+   description: String,
+   tags: [String]
+});
+const ToDo = mongoose.model("ToDo", ToDoSchema);
 
 app.get('/todos.json', (req, res) => {
     ToDo.find({}, (err, toDos) => {
