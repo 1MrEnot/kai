@@ -13,25 +13,7 @@ const months = {
     11: "декабря"
 };
 
-
-var flights = [
-    {
-        "from": "Казань",
-        "to": "Москва",
-        "fromDate": new Date(2021, 02, 12, 14, 30),
-        "toDate": new Date(2021, 02, 12, 16, 30),
-        "cost": 7500,
-        "class": "Бизнес"
-    },
-    {
-        "from": "Санкт-Петербург",
-        "to": "Казань",
-        "fromDate": new Date(2021, 02, 12, 23, 30),
-        "toDate": new Date(2021, 02, 13, 0, 30),
-        "cost": 1500,
-        "class": "Эконом"
-    },
-]
+var flights = [];
 
 function getFlightComponent(f, addBuyButton, addDeleteButton){
     let root = $("<div>").addClass("row my-2");
@@ -137,7 +119,14 @@ function dayMonthYear(datetime){
 }
 
 function main(){
-    showFlights(flights);
+    $.get("/api/tickets", (res) => {
+        flights = res;
+        flights.forEach((f) => {
+            f.fromDate = new Date(f.fromDate);
+            f.toDate = new Date(f.toDate);
+        })
+        showFlights(flights);
+    });
 }
 
 
