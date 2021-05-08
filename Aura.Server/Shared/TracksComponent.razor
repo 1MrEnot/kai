@@ -1,0 +1,13 @@
+﻿<table class="table">
+    <tbody>
+    @foreach (var track in Tracks)
+    {
+        <TrackComponent Track=@track></TrackComponent>
+    }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public TrackModel[] Tracks { get; set; }
+}

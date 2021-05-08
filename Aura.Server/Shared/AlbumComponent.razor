@@ -1,0 +1,14 @@
+﻿<tr>
+    <td>@foreach (var (id, name) in Album.Authors)
+        {
+            <a href="/Author/@id">@name</a>
+        }</td>
+    <td><a href="/Albums/@Album.Id">@Album.Title</a></td>
+</tr>
+
+@code {
+
+    [Parameter]
+    public AlbumModel Album { get; set; } = new (0, "", Array.Empty<AuthorModel>());
+
+}

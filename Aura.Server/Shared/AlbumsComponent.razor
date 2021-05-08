@@ -1,0 +1,13 @@
+﻿<table class="table">
+    <tbody>
+    @foreach (var album in Albums)
+    {
+        <AlbumComponent Album=@album></AlbumComponent>
+    }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public AlbumModel[] Albums { get; set; }
+}

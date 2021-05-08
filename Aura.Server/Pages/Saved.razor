@@ -1,0 +1,30 @@
+﻿@page "/Saved"
+<h3>Saved</h3>
+
+@if (_tracks is null)
+{
+    <p>Loading tracks...</p>
+}
+else
+{
+    <TracksComponent Tracks=@_tracks></TracksComponent>
+}
+
+@code {
+    private TrackModel[] _tracks;
+    private AlbumModel[] _albums;
+
+    protected override void OnInitialized()
+    {
+        _tracks = new[]
+        {
+            new TrackModel(1, new [] {new AuthorModel(1, "Pegboard Nerds"), new AuthorModel(2, "Tristam")}, "Razor Sharp", 143),
+            new TrackModel(2, new []{new AuthorModel(1, "Pegboard Nerds")}, "Disconnected", 217)
+        };
+
+        _albums = new[]
+        {
+            new AlbumModel(1, "Dogma Resistance", new[] {new AuthorModel(3, "RIOT")})
+        };
+    }
+}

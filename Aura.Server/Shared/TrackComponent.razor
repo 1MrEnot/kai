@@ -1,0 +1,19 @@
+﻿<tr>
+    <td>@foreach (var (id, name) in Track.Authors.Take(Track.Authors.Length - 1))
+        {
+            <a href="/Author/@id">@name, </a>
+        }
+        <a href="/Author/@Track.Authors.Last().Id">@Track.Authors.Last().Name</a></td>
+    <td>@Track.Title</td>
+    <td>@ConvertTime(Track.Duration)</td>
+</tr>
+
+@code {
+    [Parameter]
+    public TrackModel Track { get; set; }
+
+    private static string ConvertTime(int sec)
+    {
+        return $"{sec / 60}:{(sec % 60).ToString().PadLeft(2, '0')}";
+    }
+}
