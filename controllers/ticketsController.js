@@ -17,11 +17,11 @@ const flights = [
     },
 ];
 
-export function getAll (req, res){
+export async function getAll (req, res){
     res.json(flights);
 }
 
-export function search(req, res){
+export async function search(req, res){
     let flights = [
         {
             from: req.query.from,

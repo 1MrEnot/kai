@@ -1,9 +1,9 @@
-import {Router} from 'express';
-import {getAll, search} from '../controllers/ticketsController.js';
+import { Router } from 'express';
+import { getAll, search } from '../controllers/ticketsController.js';
 
-const router = Router();
+const ticketRouter = Router();
 
-router.get('/tickets', getAll);
-router.get('/ticketSearch', search);
+ticketRouter.get('/tickets', getAll);
+ticketRouter.get('/ticketSearch', search);
 
-export default router;
+export default ticketRouter;

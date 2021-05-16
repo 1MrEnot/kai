@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link href="css/style.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/index.js"></script>
 
     <title>Planer</title>
 </head>
@@ -22,19 +23,19 @@
     <div class="container-sm">
         <div class="row my-2">
 
-            <div class="col-xxl signin">
+            <div class="col-xxl login">
                 <h3>Вход</h3>
-                <input class="block my-2" type="text" placeholder="Email">
-                <input class="block my-2" type="text" placeholder="Пароль">
-                <button>Войти</button>
+                <input id="loginInEmail" class="block my-2" type="text" placeholder="Email">
+                <input id="loginInPassword" class="block my-2" type="password" placeholder="Пароль">
+                <button id="loginInButton">Войти</button>
             </div>
 
-            <div class="col-xxl register">
+            <div class="col-xxl signIn">
                 <h3>Регистрация</h3>
-                <input class="block my-2" type="text" placeholder="Email">
-                <input class="block my-2" type="text" placeholder="Пароль">
-                <input class="block my-2" type="text" placeholder="Повторите пароль">
-                <button>Зарегестрироваться</button>
+                <input id="signInInEmail" class="block my-2" type="text" placeholder="Email">
+                <input id="signInInPassword" class="block my-2" type="password" placeholder="Пароль">
+                <input id="signInInPasswordRe" class="block my-2" type="password" placeholder="Повторите пароль">
+                <button id="signInButton">Зарегестрироваться</button>
             </div>
 
         </div>
