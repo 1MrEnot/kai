@@ -130,7 +130,7 @@ function main(){
 }
 
 
-$(document).ready(main);
+$(main);
 
 /*
 <div class="row my-2">

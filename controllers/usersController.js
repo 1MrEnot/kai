@@ -13,11 +13,15 @@ export async function login (req, res) {
         return res.json({message : 'No such user!'}).status(400);
     }
 
-    if (existing[0].password !== password){
+    let user = existing[0];
+
+    if (user.password !== password){
         return res.json({message: 'Wrong password!'}).status(400);
     }
 
-    res.cookie('email', email).redirect(301, '/user.html');
+    res.cookie('email', email)
+        .cookie('is_admin', user.isAdmin)
+        .redirect(301, '/user.html');
 }
 
 export async function signIn (req, res) {

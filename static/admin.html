@@ -9,6 +9,7 @@
     <link href="css/style.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/admin.js"></script>
 
     <title>Planer: Администратор</title>
 </head>
@@ -34,20 +35,20 @@
                 <!-- Города вылета и прилёта-->
                 <div class="row my-2">
                     <div class="col d-flex">
-                        <input class="flex-fill" type="search" placeholder="Откуда">
+                        <input id="fromInput" class="flex-fill" type="search" placeholder="Откуда">
                     </div>
                     <div class="col d-flex">
-                        <input class="flex-fill" type="search" placeholder="Куда">
+                        <input id="toInput" class="flex-fill" type="search" placeholder="Куда">
                     </div>
                 </div>
 
                 <!-- Дата вылета-->
                 <div class="row my-2">
                     <div class="col d-flex">
-                        <input class="form-inline flex-fill" type="date" placeholder="Дата вылета">
+                        <input id="whenInput" class="form-inline flex-fill" type="date" placeholder="Дата вылета">
                     </div>
                     <div class="col d-flex">
-                        <input class="flex-fill" type="time" placeholder="Время полёта">
+                        <input id="lengthInput" class="flex-fill" type="time" placeholder="Время полёта">
                     </div>
                 </div>
 
@@ -57,10 +58,10 @@
                         Бизнес:
                     </div>
                     <div class="col d-flex">
-                        <input class="form-inline flex-fill" type="number" placeholder="Колличество билетов">
+                        <input id="businessAmountInput" class="form-inline flex-fill" type="number" placeholder="Колличество билетов">
                     </div>
                     <div class="col d-flex">
-                        <input class="form-inline flex-fill" type="number" placeholder="Цена билета">
+                        <input id="businessCostInput" class="form-inline flex-fill" type="number" placeholder="Цена билета">
                     </div>
                 </div>
 
@@ -70,17 +71,17 @@
                         Эконом:
                     </div>
                     <div class="col d-flex">
-                        <input class="form-inline flex-fill" type="number" placeholder="Колличество билетов">
+                        <input id="economyAmountInput" class="form-inline flex-fill" type="number" placeholder="Колличество билетов">
                     </div>
                     <div class="col d-flex">
-                        <input class="form-inline flex-fill" type="number" placeholder="Цена билета">
+                        <input id="economyCostInput" class="form-inline flex-fill" type="number" placeholder="Цена билета">
                     </div>
                 </div>
 
                 <!-- Добавление -->
                 <div class="row my-2">
                     <div class="col d-flex">
-                        <input class="flex-fill" type="button" value="Добавить">
+                        <input id="addButton" class="flex-fill" type="button" value="Добавить">
                     </div>
                 </div>
 
