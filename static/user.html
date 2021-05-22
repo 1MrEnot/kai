@@ -9,6 +9,7 @@
     <link href="css/style.css" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/user.js"></script>
 
     <title>Planer: Личный кабинет</title>
 </head>
@@ -17,9 +18,9 @@
         <div class="container-sm container-fluid">
             <a class="navbar-brand" href="#">Planer</a>
             <div class="navbar-nav">
-                <a class="nav-link" href="#">Поиск</a>
+                <a class="nav-link" href="tickets.html">Поиск</a>
                 <a class="nav-link active" href="#">Личный кабинет</a>
-                <a class="nav-link" href="#">Выход</a>
+                <a class="nav-link" href="index.html">Выход</a>
               </div>
           </div>
     </nav>
@@ -28,131 +29,22 @@
         <div class="row my-2">
 
             <div class="col-xxl-4">
-
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <div>
-                            Имя: Иван
+                        <div id="email">
                         </div>
                     </li>
 
                     <li class="list-group-item">
-                        <div>
-                            Email: ivan@gmail.com
+                        <div id="money">
                         </div>
                     </li>
-
-                    <li class="list-group-item">
-                        <div>
-                            Баланс: 10000р
-                        </div>
-                    </li>
-                    
-
-
                 </ul>
             </div>
 
             <!-- Колонка билетов -->
-            <div class="col-xxl-8 tickers">
-
+            <div id="ticket-list" class="col-xxl-8">
                 <h2>Мои билеты</h2>
-
-                <!-- Один билет-->
-                <div class="row my-2">
-                    <div class="ticket col-12 card">
-                        <div class="row card-body">
-                            <div class="col-4">
-                                <div class="cost text-center">5 000</div>
-                                <div class="cost class text-muted text-center my-2">Эконом</div>
-                            </div>
-
-                            <div class="col-8">
-                                <div class="row">
-                                    <div class="col-4 from">
-                                        <div class="city">
-                                            Казань
-                                        </div>
-                                        <div class="time">
-                                            12:00
-                                        </div>
-                                        <div class="date text-muted">
-                                            12 января 2021
-                                        </div>
-                                    </div>
-
-                                    <div class="col-4">
-                                        2:30
-                                    </div>
-
-                                    <div class="col-4 to">
-                                        <div class="city">
-                                            Москва
-                                        </div>
-                                        <div class="time">
-                                            14:30
-                                        </div>
-                                        <div class="date text-muted">
-                                            12 января 2021
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-
-                <div class="row my-2">
-                    <div class="ticket col-12 card">
-                        <div class="row card-body">
-                            <div class="col-4">
-                                <div class="cost text-center">15 000</div>
-                                <div class="cost class text-muted text-center my-2">Бизнес</div>
-                            </div>
-
-                            <div class="col-8">
-                                <div class="row">
-                                    <div class="col-4 from">
-                                        <div class="city">
-                                            Москва
-                                        </div>
-                                        <div class="time">
-                                            22:30
-                                        </div>
-                                        <div class="date text-muted">
-                                            12 января 2021
-                                        </div>
-                                    </div>
-
-                                    <div class="col-4">
-                                        4:00
-                                    </div>
-
-                                    <div class="col-4 to">
-                                        <div class="city">
-                                            Санкт-Петербург
-                                        </div>
-                                        <div class="time">
-                                            02:30
-                                        </div>
-                                        <div class="date text-muted">
-                                            13 января 2021
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-
             </div>
 
         </div>

@@ -2,11 +2,17 @@ function login() {
     let email = $('#loginInEmail').val();
     let password = $('#loginInPassword').val();
 
-    $.post("api/login", {
-        email: email,
-        password: password
-    },
-        console.log);
+    $.ajax({
+        type: "POST",
+        url: "api/login",
+        data: {
+            email: email,
+            password: password
+        },
+        success: (res) => {
+            window.location = res;
+        }
+    });
 }
 
 function signIn() {

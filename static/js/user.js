@@ -1,81 +1,29 @@
-const months = {
-    0: "января",
-    1: "февраля",
-    2: "марта",
-    3: "апреля",
-    4: "мая",
-    5: "июня",
-    6: "июля",
-    7: "августа",
-    8: "сентября",
-    9: "октября",
-    10: "ноября",
-    11: "декабря"
-};
+let tickets = [];
+let userId = null;
 
-let flights = [];
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2)
+        return parts.pop().split(';').shift();
 
-function getAndShow(){
-    $.get("/api/tickets", (res) => {
-        flights = res;
-        flights.forEach((f) => {
-            f.fromDate = new Date(f.fromDate);
-            f.toDate = new Date(f.toDate);
-        })
-        showFlights(flights);
+    return null;
+}
+
+function setUserData(){
+    let email = getCookie("email");
+    $.get(`/api/user/${email}`, (user) => {
+        let $email = $("#email");
+        let $money = $("#money");
+
+        tickets = user.tickets;
+        userId = user._id;
+        $email.text(`Email: ${user.email}`);
+        $money.text(`Баланс: ${user.money}`);
     });
 }
 
-function addTickets(){
-    let fromDateTime = $('#whenInput').val();
-    let length = $('#lengthInput').val();
-
-    let from = $('#fromInput').val();
-    let to = $('#toInput').val();
-
-    let bAmount = Number($('#businessAmountInput').val());
-    let bCost = Number($('#businessCostInput').val());
-    let eAmount = Number($('#economyAmountInput').val());
-    let eCost = Number($('#economyCostInput').val());
-
-    if (!fromDateTime || !length || !from || !to ||
-        (!bAmount || !bCost) && (!eAmount || !eCost)){
-        alert("Полностью заполните поля!");
-        return;
-    }
-
-    let [flightH, flightM] = length.split(':');
-    let addRequest = {
-        from: from,
-        to: to,
-        fromDate: new Date(fromDateTime),
-        toDate: new Date(fromDateTime).addTime(flightH, flightM),
-        businessAmount: bAmount,
-        businessCost: bCost,
-        economyAmount: eAmount,
-        economyCost: eCost
-    };
-
-    $.post("/api/tickets/", addRequest, ()=> {
-        clearInput();
-        getAndShow();
-    });
-}
-
-function clearInput(){
-    $('#whenInput').val("");
-    $('#lengthInput').val("");
-    $('#fromInput').val("");
-    $('#toInput').val("");
-
-    $('#businessAmountInput').val("");
-    $('#businessCostInput').val("");
-    $('#economyAmountInput').val("");
-    $('#economyCostInput').val("");
-}
-
-
-function getFlightComponent(f, buyButtonTrigger, deleteButtonTrigger){
+function getTicketComponent(f, buyButtonTrigger, deleteButtonTrigger){
     let root = $("<div>").addClass("row my-2").attr("id", f._id);
 
     let card = $("<div>").addClass("ticket col-12 card");
@@ -140,11 +88,15 @@ function getFlightComponent(f, buyButtonTrigger, deleteButtonTrigger){
     return root
 }
 
-function showFlights(flights){
+function showTickets(tickets){
     let list = $("#ticket-list");
 
-    flights.forEach(f => {
-        let component = getFlightComponent(f, null, deleteTicket);
+    if (tickets.length === 0){
+        list.append($('<p>').text("Билетов пока нет"));
+    }
+
+    tickets.forEach(f => {
+        let component = getTicketComponent(f, null, deleteTicket);
         list.append(component);
     });
 }
@@ -183,7 +135,7 @@ function dayMonthYear(datetime){
 
 function deleteTicket(id){
     $.ajax({
-        url: `api/tickets/${id}`,
+        url: `api/user/${userId}/ticket/${id}`,
         type: 'DELETE',
         success: () => {
             $(`#${id}`).remove();
@@ -191,15 +143,7 @@ function deleteTicket(id){
     });
 }
 
-Date.prototype.addTime = function(h, m) {
-    h = Number(h);
-    m = Number(m);
-
-    this.setTime(this.getTime() + (h*60*60*1000 + m*60*1000));
-    return this;
-}
-
-$(()=>{
-    getAndShow();
-    $("#addButton").on("click", addTickets);
+$(() => {
+    setUserData();
+    showTickets(tickets);
 });

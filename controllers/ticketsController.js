@@ -24,7 +24,7 @@ function getTicketsToAdd(addRequest){
             from: addRequest.from,
             to: addRequest.to,
             fromDate: addRequest.fromDate,
-            toDate: addRequest.fromDate,
+            toDate: addRequest.toDate,
             cost: addRequest.economyCost,
             class: "Эконом"
         });
@@ -33,7 +33,7 @@ function getTicketsToAdd(addRequest){
     return res;
 }
 
-export async function add (req, res){
+export async function add(req, res){
     let ticketsToAdd = getTicketsToAdd(req.body);
 
     for (const t of ticketsToAdd) {
@@ -48,10 +48,12 @@ export async function add (req, res){
         }
     }
 
-    await res.json({message: `Added ${ticketsToAdd.length} tickets`}).sendStatus(200);
+    res.json({
+        message: `Added ${ticketsToAdd.length} tickets`
+    }).status(200);
 }
 
-export async function getAll (req, res){
+export async function getAll(req, res){
     let tickets = await TicketModel.find();
     res.json(tickets).status(200);
 }
@@ -60,3 +62,11 @@ export async function search(req, res){
     let tickets = await TicketModel.find();
     res.json(tickets).status(200);
 }
+
+export async function remove(req, res){
+    let tickets = await TicketModel.remove({
+        _id: req.params.id
+    });
+    res.json(tickets).status(200);
+}
+

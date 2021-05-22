@@ -14,14 +14,17 @@ export async function login (req, res) {
     }
 
     let user = existing[0];
-
     if (user.password !== password){
         return res.json({message: 'Wrong password!'}).status(400);
     }
 
-    res.cookie('email', email)
-        .cookie('is_admin', user.isAdmin)
-        .redirect(301, '/user.html');
+    res.cookie('email', email);
+    if (user.isAdmin){
+        res.send('/admin.html');
+    }
+    else{
+        res.send('/user.html');
+    }
 }
 
 export async function signIn (req, res) {
@@ -52,5 +55,38 @@ export async function signIn (req, res) {
         }).status(500);
     }
 
-    await res.cookie('email', email).sendStatus(200);
+    res.cookie('email', email).status(200);
 }
+
+export async function info (req, res) {
+    let email = req.params.email;
+    let existing = await UserModel.find({email: email});
+    let user = existing[0];
+
+    res.json(user).status(200);
+}
+
+export async function deleteUsersTicket (req, res) {
+    let userId = req.params.userId;
+    let ticketId = req.params.ticketId;
+
+    let existing = await UserModel.find({_id: userId});
+    let user = existing[0];
+
+    user.tickets.removeIf((el) => el._id === ticketId);
+    await user.save();
+
+    res.status(200);
+}
+
+Array.prototype.removeIf = function(callback) {
+    var i = 0;
+    while (i < this.length) {
+        if (callback(this[i], i)) {
+            this.splice(i, 1);
+        }
+        else {
+            ++i;
+        }
+    }
+};
