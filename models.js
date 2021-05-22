@@ -6,8 +6,8 @@ const userName = 'User';
 const ticketSchema = new mongoose.Schema({
     from: String,
     to: String,
-    dateFrom: Date,
-    dateTo: Date,
+    fromDate: String,
+    toDate: String,
     cost: Number,
     class: String
 });

@@ -52,5 +52,5 @@ export async function signIn (req, res) {
         }).status(500);
     }
 
-    res.cookie('email', email).sendStatus(200);
+    await res.cookie('email', email).sendStatus(200);
 }

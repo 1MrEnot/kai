@@ -13,7 +13,7 @@ const months = {
     11: "декабря"
 };
 
-var flights = [];
+let flights = [];
 
 function getFlightComponent(f, addBuyButton, addDeleteButton){
     let root = $("<div>").addClass("row my-2");
@@ -75,7 +75,6 @@ function getFlightComponent(f, addBuyButton, addDeleteButton){
     return root
 }
 
-
 function showFlights(flights){
     let list = $("#ticket-list");
 
@@ -86,7 +85,7 @@ function showFlights(flights){
 }
 
 function hourAndMinute(datetime){
-    return fomratTwo(datetime.getMinutes(), datetime.getHours());
+    return formatTwo(datetime.getMinutes(), datetime.getHours());
 }
 
 
@@ -96,10 +95,10 @@ function getDelta(fromDatetime, toDatetime){
     let h = Math.ceil(mins / 60);
     let m = mins % 60;
 
-    return fomratTwo(m, h);
+    return formatTwo(m, h);
 }
 
-function fomratTwo(low, high){
+function formatTwo(low, high){
     if (low < 10){
         low = "0" + low;
     }
@@ -118,7 +117,8 @@ function dayMonthYear(datetime){
     return day + " " + month + " " + year;
 }
 
-function main(){
+
+$(()=>{
     $.get("/api/tickets", (res) => {
         flights = res;
         flights.forEach((f) => {
@@ -127,10 +127,7 @@ function main(){
         })
         showFlights(flights);
     });
-}
-
-
-$(main);
+});
 
 /*
 <div class="row my-2">

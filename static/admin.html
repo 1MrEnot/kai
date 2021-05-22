@@ -42,10 +42,22 @@
                     </div>
                 </div>
 
-                <!-- Дата вылета-->
+                <!-- Дата вылета -->
                 <div class="row my-2">
+                    <div>
+                        Вылет
+                    </div>
                     <div class="col d-flex">
-                        <input id="whenInput" class="form-inline flex-fill" type="date" placeholder="Дата вылета">
+                        <input id="whenInput" class="form-inline flex-fill" type="datetime-local" placeholder="Дата вылета">
+                    </div>
+                    <div class="col d-flex">
+                        <input id="whenTimeInput" class="form-inline flex-fill" type="time" placeholder="Время вылета">
+                    </div>
+                </div>
+
+                <div class="row my-2">
+                    <div>
+                        Время полёта
                     </div>
                     <div class="col d-flex">
                         <input id="lengthInput" class="flex-fill" type="time" placeholder="Время полёта">
@@ -89,63 +101,8 @@
 
 
             <!-- Колонка билетов -->
-            <div class="col-xxl-8 tickers">
-
+            <div id="ticket-list" class="col-xxl-8">
                 <h2>Свободные билеты</h2>
-
-                <!-- Один билет-->
-                <div class="row my-2">
-                    <div class="ticket col-12 card">
-                        <div class="row card-body">
-                            <div class="col-4">
-                                <div class="cost text-center">5 000</div>
-                                <div class="cost class text-muted text-center my-2">Эконом</div>
-                            </div>
-
-                            <div class="col-8">
-                                <div class="row">
-                                    <div class="col from">
-                                        <div class="city">
-                                            Казань
-                                        </div>
-                                        <div class="time">
-                                            12:00
-                                        </div>
-                                        <div class="date text-muted">
-                                            12 января 2021
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        2:30
-                                    </div>
-
-                                    <div class="col to">
-                                        <div class="city">
-                                            Москва
-                                        </div>
-                                        <div class="time">
-                                            14:30
-                                        </div>
-                                        <div class="date text-muted">
-                                            12 января 2021
-                                        </div>
-                                    </div>
-
-                                    <div class="col">
-                                        <button>Удалить</button>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                </div>
-
-
             </div>
 
         </div>

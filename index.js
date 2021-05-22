@@ -5,7 +5,8 @@ import mongoose from 'mongoose';
 import ticketRouter from './routers/ticketsRouter.js';
 import userRouter from './routers/usersRouter.js';
 
-const CONNECTION_STRING = 'mongodb+srv://admin:admin@cluster0.qt8ou.mongodb.net/planerDb?retryWrites=true&w=majority';
+// const CONNECTION_STRING = 'mongodb+srv://admin:admin@cluster0.qt8ou.mongodb.net/planerDb?retryWrites=true&w=majority';
+const CONNECTION_STRING = 'mongodb://127.0.0.1:27017/planer';
 const ROOT = path.resolve(path.resolve(), 'static');
 const PORT = 3000;
 const app = express();
