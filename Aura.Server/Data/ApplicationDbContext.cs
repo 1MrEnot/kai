@@ -13,7 +13,6 @@ namespace Aura.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
         }
 
         public DbSet<BankCard> Cards { get; set; } = null!;

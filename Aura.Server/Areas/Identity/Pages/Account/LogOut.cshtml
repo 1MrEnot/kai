@@ -2,15 +2,15 @@
 @using Aura.Server.Entities
 @using Microsoft.AspNetCore.Identity
 @attribute [IgnoreAntiforgeryToken]
-@inject SignInManager<AuraUser> SignInManager
+@inject SignInManager<AuraUser> _signInManager
 
 @functions {
 
     public async Task<IActionResult> OnPost()
     {
-        if (SignInManager.IsSignedIn(User))
+        if (_signInManager.IsSignedIn(User))
         {
-            await SignInManager.SignOutAsync();
+            await _signInManager.SignOutAsync();
         }
 
         return Redirect("~/");

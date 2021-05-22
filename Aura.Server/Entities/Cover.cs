@@ -8,6 +8,7 @@
         public Cover()
         {
             File = Array.Empty<byte>();
+            Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }

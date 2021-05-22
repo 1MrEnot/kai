@@ -13,10 +13,6 @@
             Playlists = new List<Playlist>();
         }
 
-        public string? Name { get; set; }
-
-        public string? Surname { get; set; }
-
         public BankCard? PaymentCard { get; set; }
 
         public Subscription? Subscription { get; set; }

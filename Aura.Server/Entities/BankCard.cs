@@ -4,6 +4,11 @@
 
     public class BankCard {
 
+        public BankCard()
+        {
+            Id = Guid.NewGuid();
+        }
+
         public Guid Id { get; set; }
 
         public long Number { get; set; }
