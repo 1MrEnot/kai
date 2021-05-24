@@ -1,8 +1,9 @@
-"use strict";
+let toDoObjects = {};
+let userName = "";
 
 function organizeByTags(toDoObjects) {
     // создание пустого массива для тегов
-    var tags = [];
+    let tags = [];
     // перебираем все задачи toDos
     toDoObjects.forEach(function (toDo) {
         // перебираем все теги для каждой задачи
@@ -14,10 +15,10 @@ function organizeByTags(toDoObjects) {
         });
     });
 
-    var tagObjects = tags.map(function (tag) {
+    return tags.map(function (tag) {
         // здесь мы находим все задачи,
         // содержащие этот тег
-        var toDosWithTag = [];
+        let toDosWithTag = [];
         toDoObjects.forEach(function (toDo) {
             // проверка, что результат indexOf is *не* равен -1
             if (toDo.tags.indexOf(tag) !== -1) {
@@ -26,34 +27,54 @@ function organizeByTags(toDoObjects) {
         });
         // мы связываем каждый тег с объектом, который
         // содержит название тега и массив
-        return { "name": tag, "toDos": toDosWithTag };
+        return {name: tag, toDos: toDosWithTag};
     });
+}
 
-    return tagObjects;
-};
+function addRow(parent, toDo){
+    const el = $("<li>");
+    el.text(toDo.description);
+    el.prop("id", toDo._id);
+
+    const delButton = $("<a>");
+    delButton.text("удалить")
+
+    delButton.on('click', () => {
+        el.remove();
+        $.ajax({
+            url: `/users/${userName}/todos/${toDo._id}`,
+            type: 'DELETE'
+        });
+    })
+
+    el.append(delButton);
+    parent.append(el);
+}
 
 
 function main() {
-    $(".tabs a span").toArray().forEach(function (element) {
-        var $element = $(element);
+    const content = $("main .content");
 
-        $element.on("click", function () {
-            var $content;
+    $(".tabs a span").toArray().forEach((element) => {
+        let $element = $(element);
+
+        $element.on("click", () => {
+            let $content;
 
             $(".tabs a span").removeClass("active");
             $element.addClass("active");
-            $("main .content").empty();
+            content.empty();
 
             if ($element.parent().is(":nth-child(1)")) {
                 $content = $("<ul>");
-                for (var i = toDoObjects.length-1; i >= 0; i--) {
-                    $content.append($("<li>").text(toDoObjects[i].description));
+                for (let i = toDoObjects.length-1; i >= 0; i--) {
+                    addRow($content, toDoObjects[i]);
                 }
 
             } else if ($element.parent().is(":nth-child(2)")) {
                 $content = $("<ul>");
-                toDoObjects.forEach(function (todo) {
-                    $content.append($("<li>").text(todo.description));
+                toDoObjects.forEach((todo) => {
+                    addRow($content, todo);
                 });
 
             }
@@ -61,26 +82,26 @@ function main() {
                 let organizedByTag = organizeByTags(toDoObjects);
 
                 organizedByTag.forEach(function (tag) {
-                    var $tagName = $("<h3>").text(tag.name),
+                    let $tagName = $("<h3>").text(tag.name),
                     $content = $("<ul>");
                     tag.toDos.forEach(function (todo) {
-                        var $li = $("<li>").text(todo);
+                        let $li = $("<li>").text(todo);
                         $content.append($li);
                     });
-                    $("main .content").append($tagName);
-                    $("main .content").append($content);
+                    content.append($tagName);
+                    content.append($content);
                 });
             
             } else if ($element.parent().is(":nth-child(4)")) {
-                var $descrInput = $("<input>");
-                var $tagInput = $("<input>");
-                var $button = $("<button>").text("+");
+                let $descrInput = $("<input>");
+                let $tagInput = $("<input>");
+                let $button = $("<button>").text("+");
 
-                var descrPart = $("<div>");
+                let descrPart = $("<div>");
                 descrPart.append($("<div>").text("Описание"))
                     .append($descrInput);
 
-                var tagsPart = $("<div>");
+                let tagsPart = $("<div>");
                 tagsPart.append($("<div>").text("Теги"))
                     .append($tagInput)
                     .append($button);
@@ -96,7 +117,7 @@ function main() {
                             "tags": $tagInput.val().split(',')
                         };
 
-                        $.post("todos.json", newTodo);
+                        $.post("todos", newTodo);
                         toDoObjects.push(newTodo);
 
                         $descrInput.val("");
@@ -113,16 +134,14 @@ function main() {
     });
 
     $(".tabs a:first-child span").trigger("click");
-};
-
-var toDoObjects = {};
+}
 
 
-$(document).ready(function(){
-    $.getJSON("todos.json", function (objects) {
+
+
+$(() => {
+    $.getJSON("todos", function (objects) {
         toDoObjects = objects;
         main();
     });
-});
-
-
+})

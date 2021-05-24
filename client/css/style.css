@@ -13,7 +13,7 @@ header .container, main .container, footer .container {
 }
 
 header {
-  padding: 25px 0px;
+  padding: 25px 0;
   background: white;
   overflow: auto;
   border-bottom: 2px solid #ddd;
@@ -129,4 +129,40 @@ footer .sitemap .left {
 
 footer .sitemap .right {
     float: right;
+}
+
+.content ul li a{
+    float: right;
+    color: darkcyan;
+}
+
+.comments p:nth-child(even) {
+    background: lavender;
+}
+
+.comments p:nth-child(odd) {
+    background: gainsboro;
+}
+
+.comments p {
+    border-radius: 30px;
+    padding: 7px;
+    background: rgb(250, 253, 253);
+    margin: 0 0 5px 0;
+}
+
+.comments {
+    float: right;
+    padding-right: 250px;
+}
+
+/* часть для раздела администратора*/
+button {
+    height: 25px;
+    width: 200px;
+    margin-top: 10px;
+}
+
+.users {
+    width: 192px;
 }

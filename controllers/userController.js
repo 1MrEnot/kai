@@ -1,28 +1,33 @@
 import {Router} from "express";
 
 import {User} from "../models/user.js";
+import {ToDo} from "../models/todo.js";
 
 
 export const UserRouter = Router();
 
+UserRouter.get('/users/', getAll);
 UserRouter.get('/users/:username', get);
 UserRouter.post('/users/:username', create);
-UserRouter.put('/users/:username', update);
 UserRouter.delete('/users/:username', remove);
 
+
+async function getAll (req, res){
+    let users = await User.find({});
+
+    res.json(users).sendStatus(200);
+}
+
 async function get (req, res){
-    console.log("Get");
-    res.send(200);
+    res.sendFile('index.html');
 }
 
 async function create (req, res){
-    let userName = req.params.username || "";
-    let existing = await getUserByName(userName);
-
+    let existing = await getUserByName(req.params.username);
     if (existing){
         return res.json({
             message: "User already exists"
-        }).status(500);
+        }).sendStatus(500);
     }
 
     let user = new User({
@@ -33,14 +38,19 @@ async function create (req, res){
     res.sendStatus(200);
 }
 
-async function update (req, res){
-    console.log("Update");
-    res.send(200);
-}
-
 async function remove (req, res){
-    console.log("Remove");
-    res.send(200);
+    let userResult = await User.find({username: req.params.username || ""});
+    if (userResult.length === 0){
+        return  res.json({
+            message: `No user with ${req.params.username} username`
+        }).sendStatus(400);
+    }
+    let user = userResult[0];
+
+    await ToDo.deleteMany({owner: user._id});
+    await User.findByIdAndDelete(user._id);
+
+    return res.status(200);
 }
 
 export async function getUserByName(userName){
@@ -49,5 +59,5 @@ export async function getUserByName(userName){
     if (userResult.length === 0){
         return null;
     }
-    return  userResult[0];
+    return userResult[0];
 }
