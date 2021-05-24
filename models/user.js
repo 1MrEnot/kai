@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
-import ToDo from './todo';
 
-const UserSchema = mongoose.Schema({
-    id: String,
-    username: String,
-    todos: ToDo
+
+const UserSchema = new mongoose.Schema({
+    username: String
 });
-export const User = mongoose.model("User", UserSchema);
+
+export const UserName = "User"
+export const User = mongoose.model(UserName, UserSchema);

@@ -1,59 +1,53 @@
-import User from "../models/user";
-import mongoose from "mongoose";
+import {Router} from "express";
 
-function index (req, res){
-    User.find({}, function (err, result) {
-        if (err !== null) {
-            console.log(err);
-            return;
-        }
-        
-        if (result.length !== 0) {
-            return;
-        }
+import {User} from "../models/user.js";
 
-        console.log("Создание тестового пользователя...");
-        let testUser = new User({
-            "username":"usertest"
-        });
 
-        testUser.save((err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log("Тестовый пользователь сохранен");
-            }
-        });
-    });        
-};
+export const UserRouter = Router();
 
-function get (req, res){
+UserRouter.get('/users/:username', get);
+UserRouter.post('/users/:username', create);
+UserRouter.put('/users/:username', update);
+UserRouter.delete('/users/:username', remove);
+
+async function get (req, res){
     console.log("Get");
     res.send(200);
-};
+}
 
-function create (req, res){
-    console.log("Index");
+async function create (req, res){
+    let userName = req.params.username || "";
+    let existing = await getUserByName(userName);
+
+    if (existing){
+        return res.json({
+            message: "User already exists"
+        }).status(500);
+    }
+
+    let user = new User({
+        username: req.params.username
+    });
+    await user.save();
+
+    res.sendStatus(200);
+}
+
+async function update (req, res){
+    console.log("Update");
     res.send(200);
-};
+}
 
-function update (req, res){
-    console.log("Index");
+async function remove (req, res){
+    console.log("Remove");
     res.send(200);
-};
+}
 
-function remove (req, res){
-    console.log("Index");
-    res.send(200);
-};
-
-
-const UserController = {
-    "index": index,
-    "get": get,
-    "create": create,
-    "update": update,
-    "remove": remove
-};
-
-module.exports = UserController;
+export async function getUserByName(userName){
+    userName = userName || "";
+    let userResult = await User.find({username: userName});
+    if (userResult.length === 0){
+        return null;
+    }
+    return  userResult[0];
+}

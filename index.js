@@ -3,56 +3,28 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 
+import {TodoRouter} from './controllers/todosController.js';
+import {UserRouter} from './controllers/userController.js';
+
 
 const port = 3000;
-const mongoUrl = "mongodb://localhost:27017/amazeriffic";
+const CONNECTION_STRING = 'mongodb+srv://admin:admin@cluster0.qt8ou.mongodb.net/amazeriffic?retryWrites=true&w=majority';
+// const CONNECTION_STRING = "mongodb://localhost:27017/amazeriffic";
 
 const app = express();
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-app.use(express.static(__dirname + "/client"))
-app.use(express.urlencoded())
+const ROOT = path.resolve(path.resolve(), 'client');
 
-mongoose.connect(mongoUrl);
+app.use(express.static(ROOT));
+app.use(express.urlencoded({ extended: true }))
 
-const ToDoSchema = mongoose.Schema({
-   description: String,
-   tags: [String]
-});
-const ToDo = mongoose.model("ToDo", ToDoSchema);
+app.use(TodoRouter);
+app.use(UserRouter);
 
-app.get('/todos.json', (req, res) => {
-    ToDo.find({}, (err, toDos) => {
-        if (err !== null) {
-            console.log(err);
-        }
-        else {
-            res.json(toDos);
-        }
-    })
-});
-
-app.post('/todos.json', (req, res) => {
-    console.log(req.body);
-    var newToDo = new ToDo({
-       "description":req.body.description,
-       "tags":req.body.tags
+app.listen(port, "localhost", async () => {
+    await mongoose.connect(CONNECTION_STRING, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
     });
-    
-   newToDo.save(function (err, result) {
-      if (err !== null) {
-         console.log(err);
-         res.send("ERROR");
-      } else {
-         ToDo.find({}, function (err, result) {
-            if (err !== null){
-               res.send("ERROR");
-            }
-         res.json(result);
-         });
-      }
-   });
-});
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+    console.log(`Listening at ${port}`);
 });
