@@ -1,3 +1,4 @@
+import path from "path";
 import {Router} from "express";
 
 import {User} from "../models/user.js";
@@ -19,7 +20,7 @@ async function getAll (req, res){
 }
 
 async function get (req, res){
-    res.sendFile('index.html');
+    res.sendFile(path.resolve('client', 'index.html'));
 }
 
 async function create (req, res){

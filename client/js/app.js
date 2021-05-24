@@ -1,5 +1,5 @@
+const userName = window.location.href.split('/').splice(-1)[0];
 let toDoObjects = {};
-let userName = "";
 
 function organizeByTags(toDoObjects) {
     // создание пустого массива для тегов
@@ -51,7 +51,6 @@ function addRow(parent, toDo){
     parent.append(el);
 }
 
-
 function main() {
     const content = $("main .content");
 
@@ -81,10 +80,10 @@ function main() {
             else if ($element.parent().is(":nth-child(3)")) {
                 let organizedByTag = organizeByTags(toDoObjects);
 
-                organizedByTag.forEach(function (tag) {
+                organizedByTag.forEach((tag) => {
                     let $tagName = $("<h3>").text(tag.name),
                     $content = $("<ul>");
-                    tag.toDos.forEach(function (todo) {
+                    tag.toDos.forEach((todo) => {
                         let $li = $("<li>").text(todo);
                         $content.append($li);
                     });
@@ -111,13 +110,13 @@ function main() {
                     .append(tagsPart);
 
                 $button.on("click", () => {
-                    if ($descrInput.val() !== "" || $tagInput.val() !== "") {
+                    if ($descrInput.val() && $tagInput.val()) {
                         let newTodo = {
                             "description": $descrInput.val(),
                             "tags": $tagInput.val().split(',')
                         };
 
-                        $.post("todos", newTodo);
+                        $.post(`users/${userName}/todos`, newTodo);
                         toDoObjects.push(newTodo);
 
                         $descrInput.val("");
@@ -136,11 +135,8 @@ function main() {
     $(".tabs a:first-child span").trigger("click");
 }
 
-
-
-
 $(() => {
-    $.getJSON("todos", function (objects) {
+    $.getJSON(`users/${userName}/todos`, (objects) => {
         toDoObjects = objects;
         main();
     });

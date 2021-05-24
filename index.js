@@ -28,5 +28,5 @@ app.listen(port, "localhost", async () => {
         useUnifiedTopology: true
     });
 
-    console.log(`Listening at ${port}`);
+    console.log(`Listening at ${port}; Root is ${ROOT}`);
 });
