@@ -38,7 +38,6 @@ function addRow(parent, toDo){
 
     const delButton = $("<a>");
     delButton.text("удалить")
-
     delButton.on('click', () => {
         el.remove();
         $.ajax({
@@ -46,8 +45,25 @@ function addRow(parent, toDo){
             type: 'DELETE'
         });
     })
-
     el.append(delButton);
+
+    const editButton = $("<a>");
+    editButton.text("редактировать")
+    editButton.on('click', () => {
+        let newDescription = confirm("Введите новое описание задачи");
+        $.ajax({
+            url: `/users/${userName}/todos/${toDo._id}`,
+            type: 'PUT',
+            contentType: 'application/json',
+            data: {
+                description: newDescription
+            },
+            success: () => el.text(newDescription),
+            error: (req, msg) => alert(msg)
+        });
+    });
+    el.append(delButton);
+
     parent.append(el);
 }
 
