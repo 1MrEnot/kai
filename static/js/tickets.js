@@ -13,10 +13,12 @@ const months = {
     11: "декабря"
 };
 
+let userId = null;
+let money = 0;
 let flights = [];
 
-function getFlightComponent(f, addBuyButton, addDeleteButton){
-    let root = $("<div>").addClass("row my-2");
+function getFlightComponent(f, buyButtonTrigger, deleteButtonTrigger){
+    let root = $("<div>").addClass("row my-2").attr("id", f._id);
 
     let card = $("<div>").addClass("ticket col-12 card");
     root.append(card);
@@ -28,13 +30,16 @@ function getFlightComponent(f, addBuyButton, addDeleteButton){
     cardBodyLeft.append($("<div>").addClass("cost text-center").text(f.cost));
     cardBodyLeft.append($("<div>").addClass("class text-muted text-center my-2").text(f.class));
 
-    if (addBuyButton){
-        cardBodyLeft.append($("<input>")
-        .addClass("btn-block")
-        .text(f.class)
-        .attr("style", "width:100%")
-        .attr("type", "button")
-        .attr("value", "Купить"));
+    if (buyButtonTrigger){
+        let button = $("<input>")
+            .addClass("btn-block")
+            .text(f.class)
+            .attr("style", "width:100%")
+            .attr("type", "button")
+            .attr("value", "Купить");
+
+        cardBodyLeft.append(button);
+        button.on('click', () => buyButtonTrigger(f._id));
     }
 
     cardBody.append(cardBodyLeft);
@@ -60,16 +65,21 @@ function getFlightComponent(f, addBuyButton, addDeleteButton){
     cardBody.append(cardBodyLeft);
     cardBody.append(cardBodyRight);
 
-    if (addDeleteButton){
+    if (deleteButtonTrigger){
         let delData = $("<div>").addClass("col-2 del");
-        delData.append($("<input>")
+        let button = $("<input>")
             .addClass("btn-block")
             .text(f.class)
             .attr("style", "width:100%")
             .attr("type", "button")
-            .attr("value", "Удалить"));
+            .attr("value", "Удалить");
+
+        delData.append(button);
         cardBody.append(delData);
 
+        button.on('click', () =>{
+            deleteButtonTrigger(f._id);
+        });
     }
 
     return root
@@ -77,9 +87,10 @@ function getFlightComponent(f, addBuyButton, addDeleteButton){
 
 function showFlights(flights){
     let list = $("#ticket-list");
+    list.empty();
 
     flights.forEach(f => {
-        let component = getFlightComponent(f, true, false);
+        let component = getFlightComponent(f, buyTicket, false);
         list.append(component);
     });
 }
@@ -87,7 +98,6 @@ function showFlights(flights){
 function hourAndMinute(datetime){
     return formatTwo(datetime.getMinutes(), datetime.getHours());
 }
-
 
 function getDelta(fromDatetime, toDatetime){
     let ms = toDatetime - fromDatetime;
@@ -118,62 +128,100 @@ function dayMonthYear(datetime){
 }
 
 
-$(()=>{
-    $.get("/api/tickets", (res) => {
-        flights = res;
-        flights.forEach((f) => {
-            f.fromDate = new Date(f.fromDate);
-            f.toDate = new Date(f.toDate);
-        })
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2)
+        return parts.pop().split(';').shift();
+
+    return null;
+}
+
+function setUserData(){
+    let email = getCookie("email");
+    $.get(`/api/users/${email}`, (user) => {
+        userId = user._id;
+        money = user.money;
+        console.log(`${user.email} - ${money}`);
+        resetBalance();
+    });
+}
+
+function searchTickets() {
+    let params = {};
+    let from = $("#from").val();
+    let to = $("#to").val();
+    let classVal = $("#class").val();
+    let date = $("#date").val();
+
+    if (from){
+        params.from = from;
+    }
+
+    if (to){
+        params.to = to;
+    }
+
+    if (classVal){
+        params.class = classVal;
+    }
+
+    if (date){
+        params.date = date;
+    }
+
+    let url = "/api/tickets";
+    if (params){
+        url += '?' + $.param(params)
+    }
+
+    $.get(url, (res) => {
+        flights = normalizeFlights(res);
         showFlights(flights);
     });
+}
+
+function normalizeFlights(flights){
+    flights.forEach((f) => {
+        f.fromDate = new Date(f.fromDate);
+        f.toDate = new Date(f.toDate);
+    });
+    return flights;
+}
+
+function buyTicket(id){
+    let ticket = $(`#${id}`);
+    let cost = Number(ticket.find(".cost").text());
+
+    if (cost > money){
+        alert("Недостаточно средств");
+        return;
+    }
+
+    $.post(`api/users/${userId}/tickets/${id}`, (res) => {
+        if(res.message){
+            alert(res.message);
+        }
+        else{
+            money -= cost;
+            resetBalance();
+            ticket.remove();
+        }
+    });
+}
+
+function resetBalance(){
+    $('#money').text(`Баланс: ${money || 0}`);
+}
+
+$(()=>{
+    $.get("/api/tickets", (res) => {
+        flights = normalizeFlights(res);
+        showFlights(flights);
+    });
+
+    $("#search-button").on('click', searchTickets);
+
+    setUserData();
+    resetBalance();
 });
-
-/*
-<div class="row my-2">
-    <div class="ticket col-12 card">
-        <div class="row card-body">
-            <div class="col-4">
-                <div class="cost text-center">5 000</div>
-                <div class="class text-muted text-center my-2">Эконом</div>
-
-                <input class="btn-block" style="width:100%" type="button" value="Купить">
-            </div>
-
-            <div class="col-8">
-                <div class="row">
-                    <div class="col from">
-                        <div class="city">
-                            Казань
-                        </div>
-                        <div class="time">
-                            12:00
-                        </div>
-                        <div class="date text-muted">
-                            12 января 2021
-                        </div>
-                    </div>
-
-                    <div class="col delta">
-                        2:30
-                    </div>
-
-                    <div class="col to">
-                        <div class="city">
-                            Москва
-                        </div>
-                        <div class="time">
-                            14:30
-                        </div>
-                        <div class="date text-muted">
-                            12 января 2021
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-*/

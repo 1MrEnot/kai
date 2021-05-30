@@ -12,7 +12,7 @@ function getCookie(name) {
 
 function setUserData(){
     let email = getCookie("email");
-    $.get(`/api/user/${email}`, (user) => {
+    $.get(`/api/users/${email}`, (user) => {
         let $email = $("#email");
         let $money = $("#money");
 
@@ -135,7 +135,7 @@ function dayMonthYear(datetime){
 
 function deleteTicket(id){
     $.ajax({
-        url: `api/user/${userId}/ticket/${id}`,
+        url: `api/users/${userId}/ticket/${id}`,
         type: 'DELETE',
         success: () => {
             $(`#${id}`).remove();
