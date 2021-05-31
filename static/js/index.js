@@ -10,7 +10,12 @@ function login() {
             password: password
         },
         success: (res) => {
-            window.location = res;
+            if (res.message){
+                alert(res.message);
+            }
+            else{
+                window.location = res;
+            }
         }
     });
 }
@@ -37,7 +42,8 @@ function signIn() {
             password: password
         },
         success: (res) => {
-            console.log(res);
+            const mes = res.message || "Вы успешно зарегестрировались";
+            alert(mes);
         }
     });
 }

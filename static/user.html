@@ -21,7 +21,6 @@
                 <a class="nav-link" href="tickets.html">Поиск</a>
                 <a class="nav-link active" href="#">Личный кабинет</a>
                 <a class="nav-link" href="index.html">Выход</a>
-
             </div>
           </div>
     </nav>
@@ -32,13 +31,18 @@
             <div class="col-xxl-4">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <div id="email">
-                        </div>
+                        <div id="email"></div>
                     </li>
 
                     <li class="list-group-item">
-                        <div id="money">
-                        </div>
+                        <label for="money">
+                            Баланс:
+                        </label>
+                        <input id="money" type="number">
+                    </li>
+
+                    <li class="list-group-item">
+                        <button id="account-delete" type="button" class="btn btn-danger">Удалить аккаунт</button>
                     </li>
                 </ul>
             </div>

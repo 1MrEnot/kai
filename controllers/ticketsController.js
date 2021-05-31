@@ -13,24 +13,40 @@ export async function add(req, res){
     let ticketsToAdd = getTicketsToAdd(req.body);
 
     for (const t of ticketsToAdd) {
+        t.fromDate = new Date(t.fromDate);
+        t.toDate = new Date(t.toDate);
+
         let ticketModel = new TicketModel(t);
         let addResult = await ticketModel.save();
 
         if (addResult.errors){
             return res.json({
-                message: 'Failed to add new ticket(s)',
+                message: 'Не удалось добавить',
                 errors: addResult.errors
             }).status(500);
         }
     }
 
     res.json({
-        message: `Added ${ticketsToAdd.length} tickets`
+        message: `Добавлено ${ticketsToAdd.length} билетов`
     }).status(200);
 }
 
 export async function getAll(req, res){
-    let tickets = await TicketModel.find(req.query);
+    const query = req.query;
+
+    if (query.date){
+        const date = new Date(query.date);
+        const lowerDate = new Date(query.date);
+        lowerDate.setDate(lowerDate.getDate()+1);
+        query.fromDate = {
+            $gte: date,
+            $lte: lowerDate,
+        }
+        delete query.date;
+    }
+
+    const tickets = await TicketModel.find(query);
     res.json(tickets).status(200);
 }
 
