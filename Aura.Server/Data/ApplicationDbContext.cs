@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-namespace Aura.Server.Data
+﻿namespace Aura.Server.Data
 {
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using Entities;
     using Microsoft.AspNetCore.Identity;
@@ -13,6 +12,7 @@ namespace Aura.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         public DbSet<BankCard> Cards { get; set; } = null!;

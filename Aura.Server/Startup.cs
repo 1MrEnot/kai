@@ -12,6 +12,7 @@ using Aura.Server.Data;
 namespace Aura.Server
 {
     using Entities;
+    using Services;
 
     public class Startup
     {
@@ -27,15 +28,17 @@ namespace Aura.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("PostgresTest")));
-            services.AddDefaultIdentity<AuraUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                options.UseNpgsql(Configuration.GetConnectionString("PostgresTest")), ServiceLifetime.Transient);
+            services
+                .AddDefaultIdentity<AuraUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services
-                .AddScoped<AuthenticationStateProvider,
-                    RevalidatingIdentityAuthenticationStateProvider<AuraUser>>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AuraUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
+
+            services.AddScoped<AuthorService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

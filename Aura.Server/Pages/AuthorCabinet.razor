@@ -1,0 +1,37 @@
+﻿@page "/AuthorCabinet"
+@inject AuthorService _authorService;
+<h3>Author Cabinet</h3>
+
+
+@if (_isAuthor)
+{
+    <AddTrackComponent></AddTrackComponent>
+}
+else
+{
+    <BecomeAuthor OnAuthorBecame=@_onAuthorBecame></BecomeAuthor>
+}
+
+
+@code {
+
+    public AuthorCabinet()
+    {
+        _onAuthorBecame = () =>
+        {
+            _isAuthor = true;
+            StateHasChanged();
+        };
+    }
+
+    private bool _isAuthor;
+    private readonly Action _onAuthorBecame;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _isAuthor = await _authorService.IsAuthorAsync();
+    }
+
+
+
+}

@@ -57,18 +57,10 @@ namespace Aura.Server.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var year = Input.Expires.Split('/');
                 var user = new AuraUser
                 {
                     Email = Input.Email,
                     UserName = Input.Name,
-                    PaymentCard = new BankCard
-                    {
-                        Number = long.Parse(Input.Card),
-                        Cvv = int.Parse(Input.Cvv),
-                        ExpirationYear = byte.Parse(year[1]),
-                        ExpirationMonth = byte.Parse(year[0]),
-                    },
                     Subscription = new Subscription
                     {
                         StartDate = DateTime.Now,
@@ -134,18 +126,5 @@ namespace Aura.Server.Areas.Identity.Pages.Account
         [Display(Name = "Confirm password")]
         [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; } = string.Empty;
-
-        [Required]
-        [CreditCard]
-        [StringLength(16, MinimumLength = 16, ErrorMessage = "The {0} must be {1} characters long")]
-        public string Card { get; set; } = string.Empty;
-
-        [Required]
-        [StringLength(3, MinimumLength = 3, ErrorMessage = "The {0} must be {1} characters long")]
-        public string Cvv { get; set; } = string.Empty;
-
-        [Required]
-        [RegularExpression(@"\d{2}\/\d{2}", ErrorMessage = "The {0} must have MM/YY format")]
-        public string Expires { get; set; } = string.Empty;
     }
 }

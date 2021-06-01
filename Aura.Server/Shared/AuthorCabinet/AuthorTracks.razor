@@ -1,0 +1,13 @@
+﻿@using Aura.Server.Entities
+@inject AuthorService _authorService;
+
+
+@code {
+
+    private Author _author;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _author = await _authorService.GetAsAuthor();
+    }
+}

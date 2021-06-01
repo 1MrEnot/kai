@@ -13,9 +13,9 @@
             Playlists = new List<Playlist>();
         }
 
-        public BankCard? PaymentCard { get; set; }
+        public BankCard PaymentCard { get; set; }
 
-        public Subscription? Subscription { get; set; }
+        public Subscription Subscription { get; set; }
 
         public ICollection<Track> SavedTracks { get; set; }
         public ICollection<Album> SavedAlbums { get; set; }

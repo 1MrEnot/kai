@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Net.Sockets;
 
     public class Author : AuraUser {
 
@@ -9,7 +10,31 @@
         {
             Tracks = new List<Track>();
             Albums = new List<Album>();
+            AccumulatedMoney = 0;
         }
+
+        public Author(AuraUser user)
+        {
+            Id = user.Id;
+            UserName = user.UserName;
+            NormalizedUserName = user.NormalizedUserName;
+            Email = user.Email;
+            NormalizedEmail = user.NormalizedEmail;
+            EmailConfirmed = user.EmailConfirmed;
+            PasswordHash = user.PasswordHash;
+            SecurityStamp = user.SecurityStamp;
+            ConcurrencyStamp = user.ConcurrencyStamp;
+            PhoneNumber = user.PhoneNumber;
+            PhoneNumberConfirmed = user.PhoneNumberConfirmed;
+            TwoFactorEnabled = user.TwoFactorEnabled;
+            LockoutEnabled = user.LockoutEnabled;
+            AccessFailedCount = user.AccessFailedCount;
+
+            SavedAlbums = user.SavedAlbums;
+            SavedTracks = user.SavedTracks;
+            Playlists = user.Playlists;
+        }
+
 
         public string Nickname { get; set; } = null!;
 
