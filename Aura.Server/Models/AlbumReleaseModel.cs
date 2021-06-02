@@ -2,5 +2,5 @@
 {
     using System;
 
-    public record AlbumReleaseModel(Guid Id, AuthorModel Author, string Title, TrackModel[] Tracks);
+    public record AlbumReleaseModel(Guid Id, string Title, DateTime ReleaseDate, AuthorModel Author, TrackModel[] Tracks);
 }

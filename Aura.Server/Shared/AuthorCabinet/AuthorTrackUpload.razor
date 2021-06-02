@@ -42,14 +42,14 @@
         _author = _authorService.GetAsAuthor();
     }
 
-    private async Task UploadCover(InputFileChangeEventArgs args)
+    private void UploadCover(InputFileChangeEventArgs args)
     {
-        _trackModel.Cover = await FileToByteArray(args.File);
+        _trackModel.Cover = FileToByteArray(args.File);
     }
 
-    private async Task UploadTrack(InputFileChangeEventArgs args)
+    private void UploadTrack(InputFileChangeEventArgs args)
     {
-        _trackModel.Track = await FileToByteArray(args.File);
+        _trackModel.Track = FileToByteArray(args.File);
     }
 
     private async Task CreateTrack()
@@ -68,11 +68,11 @@
         await _dbContext.SaveChangesAsync();
     }
 
-    private async Task<byte[]> FileToByteArray(IBrowserFile file)
+    private byte[] FileToByteArray(IBrowserFile file)
     {
-        await using var memoryStream = new MemoryStream();
+        using var memoryStream = new MemoryStream();
         var fileSteam = file.OpenReadStream(8*1024*1024*100);
-        await fileSteam.CopyToAsync(memoryStream);
+        fileSteam.CopyTo(memoryStream);
         return memoryStream.ToArray();
     }
 

@@ -1,0 +1,13 @@
+﻿<tr>
+    @foreach (var author in Authors)
+    {
+        <td><a href="/Author/@author.Id">@author.Name</a></td>
+    }
+</tr>
+
+@code {
+
+    [Parameter]
+    public IEnumerable<AuthorProfileModel> Authors { get; set; } = Array.Empty<AuthorProfileModel>();
+
+}

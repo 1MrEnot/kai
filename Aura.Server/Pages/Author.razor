@@ -1,9 +1,27 @@
-﻿@page "/Author/{id:int}"
-<h3>Author @Id</h3>
+﻿@page "/Author/{id:guid}"
+@inject ApplicationDbContext _dbContext;
+
+<h3>@_author.Name</h3>
+
+<h2>Треки</h2>
+<TracksComponent Tracks="@_author.Tracks"></TracksComponent>
+
+<h2>Альбомы</h2>
+<AlbumsComponent Albums="@_author.Albums"></AlbumsComponent>
 
 @code {
     [Parameter]
-    public int Id { get; set; }
+    public Guid Id { get; set; }
 
+    private AuthorProfileModel _author = new(
+        Guid.Empty,
+        string.Empty,
+        Array.Empty<TrackModel>(),
+        Array.Empty<AlbumModel>()
+        );
 
+    protected override void OnInitialized()
+    {
+        _author = _dbContext.Authors.Single(a => a.Id == Id).MapAuthorProfileModel();
+    }
 }

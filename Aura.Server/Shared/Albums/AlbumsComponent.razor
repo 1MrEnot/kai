@@ -1,0 +1,20 @@
+﻿@if (Albums.Length != 0)
+{
+    <table class="table">
+        <tbody>
+        @foreach (var album in Albums)
+        {
+            <AlbumComponent Album=@album></AlbumComponent>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Нет альбомов</p>
+}
+
+@code {
+    [Parameter]
+    public AlbumModel[] Albums { get; set; }
+}

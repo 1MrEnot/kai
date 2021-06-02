@@ -1,7 +1,6 @@
 ﻿namespace Aura.Server.Services
 {
     using System.Linq;
-    using System.Threading.Tasks;
     using Data;
     using Entities;
     using Microsoft.AspNetCore.Http;
@@ -20,25 +19,16 @@
             _userName = httpContextAccessor?.HttpContext?.User.Identity?.Name;
         }
 
-        public async Task<bool> IsAuthorAsync()
-        {
-            var fond = await _applicationDbContext.Authors.SingleOrDefaultAsync(a => a.UserName == _userName);
-            return fond is not null;
-        }
-
         public bool IsAuthor()
         {
-            var fond = _applicationDbContext.Authors.SingleOrDefault(a => a.UserName == _userName);
-            return fond is not null;
+            return _applicationDbContext.Authors.Any(a => a.UserName == _userName);
         }
 
         public AuthorProfileModel GetAsAuthor()
         {
-            var tracks = _applicationDbContext.Tracks.ToList();
-            var authors = _applicationDbContext.Authors.Include(a => a.Tracks).ToList();
-
             var author = _applicationDbContext.Authors
                 .Include(a => a.Tracks)
+                .Include(a => a.Albums)
                 .SingleOrDefault(a => a.UserName == _userName);
 
             return author?.MapAuthorProfileModel();

@@ -1,22 +1,18 @@
 ﻿@page "/AuthorCabinet"
 @inject AuthorService _authorService;
-<h3>Author Cabinet</h3>
-
+<h3>Личный кабинет музыканта</h3>
 
 @if (_isAuthor)
 {
-    <AuthorTracks></AuthorTracks>
-    <TracksComponent Tracks="_author.Tracks"></TracksComponent>
+    <AuthorManaging></AuthorManaging>
 }
 else
 {
     <BecomeAuthor OnAuthorBecame=@_onAuthorBecame></BecomeAuthor>
 }
 
-
 @code {
 
-    private AuthorProfileModel _author;
     private bool _isAuthor;
     private readonly Action _onAuthorBecame;
 
@@ -26,13 +22,11 @@ else
         {
             _isAuthor = true;
             StateHasChanged();
-            _author = _authorService.GetAsAuthor();
         };
     }
 
     protected override void OnInitialized()
     {
-        _author = _authorService.GetAsAuthor();
         _isAuthor = _authorService.IsAuthor();
         StateHasChanged();
     }

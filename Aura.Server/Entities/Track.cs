@@ -8,7 +8,6 @@
         public Track()
         {
             File = Array.Empty<byte>();
-            SavedBy = new List<AuraUser>();
         }
 
         public Guid Id { get; set; }
@@ -17,7 +16,7 @@
 
         public Guid AuthorId { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
         public byte[] File { get; set; }
 
@@ -25,8 +24,6 @@
 
         public DateTime ReleaseDate { get; set; }
 
-        public byte[] Cover { get; set; } = null!;
-        
-        public virtual ICollection<AuraUser> SavedBy { get; set; }
+        public byte[] Cover { get; set; }
     }
 }

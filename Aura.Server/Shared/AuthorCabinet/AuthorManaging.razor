@@ -1,0 +1,22 @@
+﻿@inject AuthorService _authorService;
+
+<div class="row">
+    <div class="col">
+        <AuthorTrackUpload></AuthorTrackUpload>
+        <TracksComponent Tracks="_author.Tracks"></TracksComponent>
+    </div>
+    <div class="col">
+        <p>Добавление альбома</p>
+    </div>
+</div>
+
+
+
+@code {
+    private AuthorProfileModel _author;
+
+    protected override void OnInitialized()
+    {
+        _author = _authorService.GetAsAuthor();
+    }
+}

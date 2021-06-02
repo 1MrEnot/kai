@@ -13,10 +13,9 @@
 
         public Guid Id { get; set; }
 
-        public string Name { get; set; } = null!;
+        public string Name { get; set; }
 
-        [Required]
-        public virtual AuraUser Owner { get; set; } = null!;
+        public virtual AuraUser Owner { get; set; }
 
         public virtual ICollection<Track> Tracks { get; set; }
     }

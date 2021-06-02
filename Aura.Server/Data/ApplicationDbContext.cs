@@ -1,12 +1,10 @@
 ﻿namespace Aura.Server.Data
 {
-    using System.Collections.Generic;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using System;
     using Entities;
     using Microsoft.AspNetCore.Identity;
-    using Models;
 
     public class ApplicationDbContext : IdentityDbContext<AuraUser, IdentityRole<Guid>, Guid>
     {
@@ -32,36 +30,6 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<AuraUser>().ToTable("Users");
-            modelBuilder.Entity<Author>().ToTable("Authors");
-
-
-            modelBuilder
-                .Entity<Track>()
-                .HasMany(t => t.SavedBy)
-                .WithMany(u => u.SavedTracks)
-                .UsingEntity(j => j.ToTable("SavedTracks"));
-
-            modelBuilder
-                .Entity<Album>()
-                .HasMany(t => t.SavedBy)
-                .WithMany(u => u.SavedAlbums)
-                .UsingEntity(j => j.ToTable("SavedAlbums"));
-
-            modelBuilder
-                .Entity<Author>()
-                .HasMany<Track>()
-                .WithOne(t => t.Author)
-                .HasForeignKey(el => el.AuthorId);
-
-            modelBuilder
-                .Entity<Author>()
-                .HasMany<Album>()
-                .WithOne(t => t.Author)
-                .HasForeignKey(el => el.AuthorId);
-
-
         }
     }
 }

@@ -1,0 +1,23 @@
+﻿@page "/Search"
+@inject ApplicationDbContext _dbContext;
+<h3>Search</h3>
+
+<div class="text-center bg-blue-100">
+    <input class="border-4 w-1/3 rounded m-6 p-6 h-8 border-blue-300" @bind-value="_searchText"
+           @bind-value:event="oninput" placeholder="Поиск музыкантов" />
+</div>
+
+<AuthorList Authors="@Authors"></AuthorList>
+
+@code {
+    private string _searchText = string.Empty;
+    private List<AuthorProfileModel> _allAuthors;
+
+    protected override void OnInitialized()
+    {
+        _allAuthors = _dbContext.Authors.ToList().Select(a => a.MapAuthorProfileModel()).ToList();
+    }
+
+    private IEnumerable<AuthorProfileModel> Authors => _allAuthors
+        .Where(a => a.Name.IndexOf(_searchText, StringComparison.InvariantCultureIgnoreCase) >= 0);
+}
