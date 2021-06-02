@@ -1,13 +1,15 @@
 ﻿@using Aura.Server.Entities
+@using System.IO
 @inject AuthorService _authorService;
+
+<AuthorTrackUpload></AuthorTrackUpload>
 
 
 @code {
+    private AuthorProfileModel _author;
 
-    private Author _author;
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _author = await _authorService.GetAsAuthor();
+        _author = _authorService.GetAsAuthor();
     }
 }

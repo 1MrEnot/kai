@@ -8,11 +8,14 @@
         public Track()
         {
             File = Array.Empty<byte>();
-            Authors = new List<Author>();
             SavedBy = new List<AuraUser>();
         }
 
         public Guid Id { get; set; }
+
+        public virtual Author Author { get; set; }
+
+        public Guid AuthorId { get; set; }
 
         public string Name { get; set; } = null!;
 
@@ -20,14 +23,10 @@
 
         public int Duration { get; set; }
 
-        public long ListenTimes { get; set; }
-
         public DateTime ReleaseDate { get; set; }
 
-        public Cover Cover { get; set; } = null!;
-
-        public ICollection<Author> Authors { get; set; }
-
-        public ICollection<AuraUser> SavedBy { get; set; }
+        public byte[] Cover { get; set; } = null!;
+        
+        public virtual ICollection<AuraUser> SavedBy { get; set; }
     }
 }

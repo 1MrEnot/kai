@@ -1,11 +1,13 @@
 ﻿namespace Aura.Server.Services
 {
-    using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Data;
     using Entities;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using Models;
+    using Models.Mapping;
 
     public class AuthorService
     {
@@ -24,22 +26,35 @@
             return fond is not null;
         }
 
-        public async Task<Author> GetAsAuthor()
+        public bool IsAuthor()
         {
-            return await _applicationDbContext.Authors.SingleOrDefaultAsync(u => u.UserName == _userName);
+            var fond = _applicationDbContext.Authors.SingleOrDefault(a => a.UserName == _userName);
+            return fond is not null;
         }
 
-        public async Task MakeAuthor(string nickname)
+        public AuthorProfileModel GetAsAuthor()
         {
-            var user = await _applicationDbContext.Users.SingleAsync(u => u.UserName == _userName);
+            var tracks = _applicationDbContext.Tracks.ToList();
+            var authors = _applicationDbContext.Authors.Include(a => a.Tracks).ToList();
+
+            var author = _applicationDbContext.Authors
+                .Include(a => a.Tracks)
+                .SingleOrDefault(a => a.UserName == _userName);
+
+            return author?.MapAuthorProfileModel();
+        }
+
+        public void MakeAuthor(string nickname)
+        {
+            var user = _applicationDbContext.Users.Single(u => u.UserName == _userName);
             var author = new Author(user)
             {
                 Nickname = nickname
             };
 
             _applicationDbContext.Users.Remove(user);
-            await _applicationDbContext.Authors.AddAsync(author);
-            await _applicationDbContext.SaveChangesAsync();
+            _applicationDbContext.Authors.Add(author);
+            _applicationDbContext.SaveChanges();
         }
     }
 }

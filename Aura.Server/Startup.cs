@@ -28,7 +28,7 @@ namespace Aura.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("PostgresTest")), ServiceLifetime.Transient);
+                options.UseNpgsql(Configuration.GetConnectionString("PostgresTest")));
             services
                 .AddDefaultIdentity<AuraUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

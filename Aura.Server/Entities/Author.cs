@@ -1,8 +1,6 @@
 ﻿namespace Aura.Server.Entities
 {
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Net.Sockets;
 
     public class Author : AuraUser {
 
@@ -10,7 +8,6 @@
         {
             Tracks = new List<Track>();
             Albums = new List<Album>();
-            AccumulatedMoney = 0;
         }
 
         public Author(AuraUser user)
@@ -33,19 +30,17 @@
             SavedAlbums = user.SavedAlbums;
             SavedTracks = user.SavedTracks;
             Playlists = user.Playlists;
+
+            Tracks = new List<Track>();
+            Albums = new List<Album>();
         }
 
 
         public string Nickname { get; set; } = null!;
 
-        public double AccumulatedMoney { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
 
-        [Required]
-        public BankCard DeductionsCard { get; set; } = null!;
-
-        public ICollection<Track> Tracks { get; set; }
-
-        public ICollection<Album> Albums { get; set; }
+        public virtual ICollection<Album> Albums { get; set; }
 
         /*
         public abstract Cover AddCover(byte[] file, string name);

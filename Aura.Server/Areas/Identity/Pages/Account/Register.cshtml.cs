@@ -60,12 +60,7 @@ namespace Aura.Server.Areas.Identity.Pages.Account
                 var user = new AuraUser
                 {
                     Email = Input.Email,
-                    UserName = Input.Name,
-                    Subscription = new Subscription
-                    {
-                        StartDate = DateTime.Now,
-                        SubscriptionType = SubscriptionType.Free
-                    }
+                    UserName = Input.Name
                 };
 
                 var result = await _userManager.CreateAsync(user, Input.Password);

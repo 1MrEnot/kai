@@ -17,9 +17,9 @@
     public Action OnAuthorBecame { get; set; } = () => { };
     private Model _model = new();
 
-    private async Task RegisterAsAuthor()
+    private void RegisterAsAuthor()
     {
-        await _authorService.MakeAuthor(_model.Nickname);
+        _authorService.MakeAuthor(_model.Nickname);
         OnAuthorBecame();
     }
 

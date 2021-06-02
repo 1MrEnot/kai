@@ -16,8 +16,8 @@
         public string Name { get; set; } = null!;
 
         [Required]
-        public AuraUser Owner { get; set; } = null!;
+        public virtual AuraUser Owner { get; set; } = null!;
 
-        public ICollection<Track> Tracks { get; set; }
+        public virtual ICollection<Track> Tracks { get; set; }
     }
 }

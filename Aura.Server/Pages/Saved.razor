@@ -16,15 +16,8 @@ else
 
     protected override void OnInitialized()
     {
-        _tracks = new[]
-        {
-            new TrackModel(1, new [] {new AuthorModel(1, "Pegboard Nerds"), new AuthorModel(2, "Tristam")}, "Razor Sharp", 143),
-            new TrackModel(2, new []{new AuthorModel(1, "Pegboard Nerds")}, "Disconnected", 217)
-        };
+        _tracks = new TrackModel[0];
 
-        _albums = new[]
-        {
-            new AlbumModel(1, "Dogma Resistance", new[] {new AuthorModel(3, "RIOT")})
-        };
+        _albums = new AlbumModel[0];
     }
 }

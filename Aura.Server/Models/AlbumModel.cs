@@ -1,4 +1,6 @@
 ﻿namespace Aura.Server.Models
 {
-    public record AlbumModel(int Id, string Title, AuthorModel[] Authors);
+    using System;
+
+    public record AlbumModel(Guid Id, string Title, AuthorModel Author);
 }

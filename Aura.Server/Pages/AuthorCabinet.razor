@@ -5,7 +5,8 @@
 
 @if (_isAuthor)
 {
-    <AddTrackComponent></AddTrackComponent>
+    <AuthorTracks></AuthorTracks>
+    <TracksComponent Tracks="_author.Tracks"></TracksComponent>
 }
 else
 {
@@ -15,23 +16,24 @@ else
 
 @code {
 
+    private AuthorProfileModel _author;
+    private bool _isAuthor;
+    private readonly Action _onAuthorBecame;
+
     public AuthorCabinet()
     {
         _onAuthorBecame = () =>
         {
             _isAuthor = true;
             StateHasChanged();
+            _author = _authorService.GetAsAuthor();
         };
     }
 
-    private bool _isAuthor;
-    private readonly Action _onAuthorBecame;
-
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        _isAuthor = await _authorService.IsAuthorAsync();
+        _author = _authorService.GetAsAuthor();
+        _isAuthor = _authorService.IsAuthor();
+        StateHasChanged();
     }
-
-
-
 }

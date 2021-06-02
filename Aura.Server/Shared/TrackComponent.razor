@@ -1,9 +1,5 @@
 ﻿<tr>
-    <td>@foreach (var (id, name) in Track.Authors.Take(Track.Authors.Length - 1))
-        {
-            <a href="/Author/@id">@name, </a>
-        }
-        <a href="/Author/@Track.Authors.Last().Id">@Track.Authors.Last().Name</a></td>
+    <td><a href="/Author/@Track.Author.Id">@Track.Author.Name</a></td>
     <td>@Track.Title</td>
     <td>@ConvertTime(Track.Duration)</td>
 </tr>

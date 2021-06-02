@@ -13,14 +13,11 @@
             Playlists = new List<Playlist>();
         }
 
-        public BankCard PaymentCard { get; set; }
 
-        public Subscription Subscription { get; set; }
+        public virtual ICollection<Track> SavedTracks { get; set; }
+        public virtual ICollection<Album> SavedAlbums { get; set; }
 
-        public ICollection<Track> SavedTracks { get; set; }
-        public ICollection<Album> SavedAlbums { get; set; }
-
-        public ICollection<Playlist> Playlists { get; set; }
+        public virtual ICollection<Playlist> Playlists { get; set; }
 
         /*public abstract void AddTrackToFavorites(Track track);
         public abstract void RemoveTrackFromFavorites(Track track);
