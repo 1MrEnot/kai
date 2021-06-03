@@ -1,0 +1,35 @@
+﻿@inject ApplicationDbContext _dbContext;
+
+@if (Tracks.Any())
+{
+    <table class="table">
+        <tbody>
+        @foreach (var track in Tracks)
+        {
+            <TrackWithDelete Track=@track DeleteHandler="@GetDeleteHandler(track)"></TrackWithDelete>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Нет треков</p>
+}
+
+@code {
+
+    [Parameter]
+    public List<TrackModel> Tracks { get; set; }
+
+    private Action GetDeleteHandler(TrackModel trackToDelete)
+    {
+        return () =>
+        {
+            var track  = _dbContext.Tracks.Find(trackToDelete.Id);
+            _dbContext.Tracks.Remove(track);
+            _dbContext.SaveChanges();
+            Tracks.Remove(trackToDelete);
+            StateHasChanged();
+        };
+    }
+}

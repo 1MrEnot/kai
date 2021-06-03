@@ -1,6 +1,5 @@
 ﻿@page "/AuthorCabinet"
-@inject AuthorService _authorService;
-<h3>Личный кабинет музыканта</h3>
+@inject UserService _userService;
 
 @if (_isAuthor)
 {
@@ -27,7 +26,7 @@ else
 
     protected override void OnInitialized()
     {
-        _isAuthor = _authorService.IsAuthor();
+        _isAuthor = _userService.IsAuthor();
         StateHasChanged();
     }
 }

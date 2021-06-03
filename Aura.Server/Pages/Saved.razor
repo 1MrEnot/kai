@@ -1,23 +1,14 @@
 ﻿@page "/Saved"
-<h3>Saved</h3>
+@inject UserService _userService;
 
-@if (_tracks is null)
-{
-    <p>Loading tracks...</p>
-}
-else
-{
-    <TracksComponent Tracks=@_tracks></TracksComponent>
-}
+<TracksWithAdd User="@_user" Tracks="@_user.SavedTracks"></TracksWithAdd>
 
 @code {
-    private TrackModel[] _tracks;
-    private AlbumModel[] _albums;
+
+    private UserModel _user;
 
     protected override void OnInitialized()
     {
-        _tracks = new TrackModel[0];
-
-        _albums = new AlbumModel[0];
+        _user = _userService.GetUser();
     }
 }

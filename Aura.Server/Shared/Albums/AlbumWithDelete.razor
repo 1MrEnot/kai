@@ -1,0 +1,11 @@
+﻿<AlbumComponent Album="Album">
+    <td><button class="btn-outline-danger" onclick="@DeleteHandler">X</button></td>
+</AlbumComponent>
+
+@code {
+    [Parameter]
+    public AlbumModel Album { get; set; }
+
+    [Parameter]
+    public Action DeleteHandler { get; set; }
+}

@@ -8,12 +8,12 @@
     using Models;
     using Models.Mapping;
 
-    public class AuthorService
+    public class UserService
     {
         private readonly ApplicationDbContext _applicationDbContext;
         private readonly string _userName;
 
-        public AuthorService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
+        public UserService(ApplicationDbContext dbContext, IHttpContextAccessor httpContextAccessor)
         {
             _applicationDbContext = dbContext;
             _userName = httpContextAccessor?.HttpContext?.User.Identity?.Name;
@@ -33,6 +33,17 @@
 
             return author?.MapAuthorProfileModel();
         }
+
+        public UserModel GetUser()
+        {
+            var user = _applicationDbContext.Users
+                .Include(a => a.SavedAlbums)
+                .Include(a => a.SavedTracks)
+                .SingleOrDefault(a => a.UserName == _userName);
+
+            return user?.MapModel();
+        }
+
 
         public void MakeAuthor(string nickname)
         {

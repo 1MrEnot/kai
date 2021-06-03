@@ -1,5 +1,7 @@
-﻿@inject ApplicationDbContext _dbContext;
-@inject AuthorService _authorService;
+﻿@using TagLib;
+@inject ApplicationDbContext _dbContext;
+@inject UserService _userService;
+@inject ILogger<AuthorTrackUpload> _logger;
 
 <EditForm Model="_trackModel" OnValidSubmit="CreateTrack">
     <DataAnnotationsValidator/>
@@ -34,57 +36,71 @@
 
 @code {
 
+    [Parameter]
+    public Action OnTrackCreated { get; set; } = () => {};
     private AuthorProfileModel _author;
-    private TrackModel _trackModel = new();
+    private CreateTrackModel _trackModel = new();
 
     protected override void OnInitialized()
     {
-        _author = _authorService.GetAsAuthor();
+        _author = _userService.GetAsAuthor();
     }
 
     private void UploadCover(InputFileChangeEventArgs args)
     {
-        _trackModel.Cover = FileToByteArray(args.File);
+        _trackModel.Cover = args.File;
+        _logger.LogInformation("Обложка загружена");
     }
 
     private void UploadTrack(InputFileChangeEventArgs args)
     {
-        _trackModel.Track = FileToByteArray(args.File);
+        _trackModel.Track = args.File;
+        _logger.LogInformation("Трек загружен");
     }
 
     private async Task CreateTrack()
     {
         var author = await _dbContext.Authors.FindAsync(_author.Id);
+        var fileArray = await FileToByteArray(_trackModel.Track);
+        var coverArray = await FileToByteArray(_trackModel.Cover);
+
+        var trackLength = 143;
+
         var track = new Track
         {
             Id = Guid.NewGuid(),
-            File = _trackModel.Track,
+            File = fileArray,
+            Cover = coverArray,
             Name = _trackModel.Name,
             ReleaseDate = DateTime.Today,
+            Duration = trackLength,
             Author = author
         };
-        _dbContext.Tracks.Add(track);
 
+        _dbContext.Tracks.Add(track);
         await _dbContext.SaveChangesAsync();
+
+        OnTrackCreated();
+        _logger.LogInformation("Трек создан");
     }
 
-    private byte[] FileToByteArray(IBrowserFile file)
+    private async Task<byte[]> FileToByteArray(IBrowserFile file)
     {
-        using var memoryStream = new MemoryStream();
+        await using var memoryStream = new MemoryStream();
         var fileSteam = file.OpenReadStream(8*1024*1024*100);
-        fileSteam.CopyTo(memoryStream);
+        await fileSteam.CopyToAsync(memoryStream);
         return memoryStream.ToArray();
     }
 
-    private class TrackModel
+    private class CreateTrackModel
     {
         [Required]
         public string Name { get; set; }
 
         [Required]
-        public byte[] Cover { get; set; }
+        public IBrowserFile Cover { get; set; }
 
         [Required]
-        public byte[] Track { get; set; }
+        public IBrowserFile Track { get; set; }
     }
 }

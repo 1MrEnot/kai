@@ -1,4 +1,4 @@
-﻿@inject AuthorService _authorService;
+﻿@inject UserService _userService;
 <p> Станьте музыкантом сегодня! </p>
 
 <EditForm Model="_model" OnValidSubmit="RegisterAsAuthor">
@@ -19,7 +19,7 @@
 
     private void RegisterAsAuthor()
     {
-        _authorService.MakeAuthor(_model.Nickname);
+        _userService.MakeAuthor(_model.Nickname);
         OnAuthorBecame();
     }
 

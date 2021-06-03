@@ -1,0 +1,42 @@
+﻿@inject UserService _userService;
+@inject ApplicationDbContext _dbContext;
+
+<AlbumComponent Album="Album">
+    <td><button class="btn-outline-primary" onclick="@_addHandler">@GetSymbol()</button></td>
+</AlbumComponent>
+
+@code {
+
+    public AlbumWithAdd()
+    {
+        _addHandler = () =>
+        {
+            var album = _dbContext.Albums.Find(Album.Id);
+            var user = _dbContext.Users.Find(User.Id);
+            if (User.SavedTracks.Select(t => t.Id).Any(id => id == Album.Id))
+            {
+                user.SavedAlbums.Remove(album);
+                User.SavedAlbums.Remove(User.SavedAlbums.Single(t => t.Id == album.Id));
+            }
+            else
+            {
+                user.SavedAlbums.Add(album);
+                User.SavedAlbums.Add(album.MapAlbumModel());
+            }
+            _dbContext.SaveChanges();
+        };
+    }
+
+    [Parameter]
+    public UserModel User { get; set; }
+
+    [Parameter]
+    public AlbumModel Album { get; set; }
+
+    private readonly Action _addHandler;
+
+    private string GetSymbol() =>
+        User.SavedAlbums.Select(a => a.Id).Any(id => id == Album.Id)
+            ? "X"
+            : "+";
+}

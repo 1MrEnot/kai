@@ -1,0 +1,17 @@
+﻿@page "/Track/{id:guid}"
+@inject ApplicationDbContext _dbContext;
+
+<h3>@_track.Title</h3>
+
+@code {
+
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private TrackModel _track;
+
+    protected override void OnInitialized()
+    {
+        _track = _dbContext.Tracks.Find(Id).MapTrackModel();
+    }
+}

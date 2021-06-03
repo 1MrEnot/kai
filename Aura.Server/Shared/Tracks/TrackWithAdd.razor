@@ -1,0 +1,42 @@
+﻿@inject UserService _userService;
+@inject ApplicationDbContext _dbContext;
+
+<TrackComponent Track="Track">
+    <td><button class="btn-outline-primary" onclick="@_addHandler">@GetSymbol()</button></td>
+</TrackComponent>
+
+@code {
+
+    public TrackWithAdd()
+    {
+        _addHandler = () =>
+        {
+            var track = _dbContext.Tracks.Find(Track.Id);
+            var user = _dbContext.Users.Find(User.Id);
+            if (User.SavedTracks.Select(t => t.Id).Any(id => id == Track.Id))
+            {
+                user.SavedTracks.Remove(track);
+                User.SavedTracks.Remove(User.SavedTracks.Single(t => t.Id == track.Id));
+            }
+            else
+            {
+                user.SavedTracks.Add(track);
+                User.SavedTracks.Add(track.MapTrackModel());
+            }
+            _dbContext.SaveChanges();
+        };
+    }
+
+    [Parameter]
+    public UserModel User { get; set; }
+
+    [Parameter]
+    public TrackModel Track { get; set; }
+
+    private Action _addHandler;
+
+    private string GetSymbol() =>
+        User.SavedTracks.Select(a => a.Id).Any(id => id == Track.Id)
+            ? "X"
+            : "+";
+}

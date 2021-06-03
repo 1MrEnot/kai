@@ -18,7 +18,7 @@
                 album.Name,
                 album.ReleaseDate,
                 album.Author.MapAuthorModel(),
-                album.Tracks.Select(t => t.MapTrackModel()).ToArray()
+                album.Tracks.Select(t => t.MapTrackModel()).ToList()
                 );
         }
 

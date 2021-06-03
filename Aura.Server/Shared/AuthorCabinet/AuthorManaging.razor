@@ -1,29 +1,38 @@
-﻿@inject AuthorService _authorService;
+﻿@inject UserService _userService;
 
 <div class="row">
     <div class="col">
         <h4>Треки</h4>
         <div class="mb-3">
-            <AuthorTrackUpload></AuthorTrackUpload>
+            <AuthorTrackUpload OnTrackCreated="@_onCreated"></AuthorTrackUpload>
         </div>
-        <TracksComponent Tracks="_author.Tracks"></TracksComponent>
+        <AuthorTracks Tracks="_author.Tracks.ToList()"></AuthorTracks>
     </div>
     <div class="col">
         <h4>Альбомы</h4>
         <div class="mb-3">
-            <AuthorAlbumUpload></AuthorAlbumUpload>
+            <AuthorAlbumUpload OnAlbumCreated="@_onCreated"></AuthorAlbumUpload>
         </div>
-        <AlbumsComponent Albums="_author.Albums"></AlbumsComponent>
+        <AuthorAlbums Albums="_author.Albums.ToList()"></AuthorAlbums>
     </div>
 </div>
 
 
-
 @code {
     private AuthorProfileModel _author;
+    private Action _onCreated;
+
+    public AuthorManaging()
+    {
+        _onCreated = () =>
+        {
+            _author = _userService.GetAsAuthor();
+            StateHasChanged();
+        };
+    }
 
     protected override void OnInitialized()
     {
-        _author = _authorService.GetAsAuthor();
+        _author = _userService.GetAsAuthor();
     }
 }

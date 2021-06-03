@@ -12,6 +12,7 @@ using Aura.Server.Data;
 namespace Aura.Server
 {
     using Entities;
+    using Microsoft.Extensions.Logging;
     using Services;
 
     public class Startup
@@ -33,12 +34,14 @@ namespace Aura.Server
                 .AddDefaultIdentity<AuraUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
+            services.AddLogging(cfg => cfg.AddConsole());
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AuraUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddScoped<AuthorService>();
+            services.AddScoped<UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

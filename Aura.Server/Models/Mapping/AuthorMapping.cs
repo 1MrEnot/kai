@@ -15,8 +15,8 @@
             return new(
                 author.Id,
                 author.Nickname,
-                author.Tracks.Select(t => t.MapTrackModel()).ToArray(),
-                author.Albums.Select(a => a.MapAlbumModel()).ToArray()
+                author.Tracks.Select(t => t.MapTrackModel()).ToList(),
+                author.Albums.Select(a => a.MapAlbumModel()).ToList()
                 );
         }
     }

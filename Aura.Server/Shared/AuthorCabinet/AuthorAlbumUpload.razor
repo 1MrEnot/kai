@@ -1,7 +1,6 @@
 ﻿@inject ApplicationDbContext _dbContext;
-@inject AuthorService _authorService;
-
-<p>Добавить новый альбом</p>
+@inject UserService _userService;
+@inject ILogger<AuthorAlbumUpload> _logger;
 
 <EditForm Model="_album" OnValidSubmit="CreateAlbum">
     <DataAnnotationsValidator/>
@@ -16,14 +15,14 @@
         @foreach (var item in _authorTrackNames)
         {
             <div>
-                <label for="@item.Value">
+                <label for="@item.Text">
                     @if (item.Selected)
                     {
-                        <input type="checkbox" id="@item.Value" checked="checked" @onchange="@(e => CheckboxChanged(e, item.Value))" />
+                        <input type="checkbox" checked="checked" @onchange="@(e => CheckboxChanged(e, item.Text))" />
                     }
                     else
                     {
-                        <input type="checkbox" id="@item.Value" @onchange="@(e => CheckboxChanged(e, item.Value))" />
+                        <input type="checkbox" @onchange="@(e => CheckboxChanged(e, item.Text))" />
                     }
                     @item.Text
                 </label>
@@ -37,19 +36,25 @@
 
 @code {
 
+    [Parameter]
+    public Action OnAlbumCreated { get; set; } = () => { };
+
     private MultiSelectList _authorTrackNames;
     private AuthorProfileModel _author;
     private AlbumModel _album = new();
 
     protected override void OnInitialized()
     {
-        _author = _authorService.GetAsAuthor();
+        _author = _userService.GetAsAuthor();
         _authorTrackNames = new MultiSelectList(_author.Tracks.Select(t => t.Title));
     }
 
     private void CreateAlbum()
     {
-        var selectedNames = _authorTrackNames.SelectedValues.Cast<string>().ToHashSet();
+        var selectedNames = _authorTrackNames
+            .Where(el => el.Selected)
+            .Select(el => el.Text)
+            .ToHashSet();
         var selectedTrackIds = _author.Tracks
             .Where(t => selectedNames.Contains(t.Title))
             .Select(t => t.Id)
@@ -60,18 +65,21 @@
             Id = Guid.NewGuid(),
             Author = _dbContext.Authors.Single(a => a.Id == _author.Id),
             Name = _album.Name,
-            Tracks = _dbContext.Tracks.Where(t => selectedTrackIds.Contains(t.Id)).ToList()
+            Tracks = _dbContext.Tracks.Where(t => selectedTrackIds.Contains(t.Id)).ToList(),
+            ReleaseDate = DateTime.Today
         };
         _dbContext.Add(album);
         _dbContext.SaveChanges();
+        OnAlbumCreated();
+        _logger.LogInformation("Альбом создан");
     }
 
     private void CheckboxChanged(ChangeEventArgs e, string key)
     {
-        var i = _authorTrackNames.FirstOrDefault(t => t.Value == key);
+        var i = _authorTrackNames.FirstOrDefault(t => t.Text == key);
         if (i != null)
         {
-            i.Selected = (bool) e.Value;
+            i.Selected = !i.Selected;
         }
     }
 

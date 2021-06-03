@@ -1,0 +1,11 @@
+﻿<TrackComponent Track="Track">
+        <td><button class="btn-outline-danger" onclick="@DeleteHandler">X</button></td>
+</TrackComponent>
+
+@code {
+    [Parameter]
+    public TrackModel Track { get; set; }
+
+    [Parameter]
+    public Action DeleteHandler { get; set; }
+}

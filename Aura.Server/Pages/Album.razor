@@ -1,24 +1,27 @@
 ﻿@page "/Album/{id:guid}"
 @inject ApplicationDbContext _dbContext;
+@inject UserService _userService;
 
 <h3>@_album.Title</h3>
 <h4>Дата релиза: @_album.ReleaseDate.ToShortDateString()</h4>
 
-<AlbumComponent Album="@_album.MapAlbumModel()"></AlbumComponent>
+<TracksWithAdd User="@_user" Tracks="@_album.Tracks"></TracksWithAdd>
 
 @code {
     [Parameter]
     public Guid Id { get; set; }
 
     private AlbumReleaseModel _album;
+    private UserModel _user;
 
     protected override void OnInitialized()
     {
         _album = _dbContext.Albums
             .Include(a => a.Tracks).Single(a => a.Id == Id)
             .MapAlbumReleaseModel();
-    }
 
+        _user = _userService.GetUser();
+    }
 
 
 }
