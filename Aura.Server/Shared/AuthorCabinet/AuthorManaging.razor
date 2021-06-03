@@ -2,11 +2,18 @@
 
 <div class="row">
     <div class="col">
-        <AuthorTrackUpload></AuthorTrackUpload>
+        <h4>Треки</h4>
+        <div class="mb-3">
+            <AuthorTrackUpload></AuthorTrackUpload>
+        </div>
         <TracksComponent Tracks="_author.Tracks"></TracksComponent>
     </div>
     <div class="col">
-        <p>Добавление альбома</p>
+        <h4>Альбомы</h4>
+        <div class="mb-3">
+            <AuthorAlbumUpload></AuthorAlbumUpload>
+        </div>
+        <AlbumsComponent Albums="_author.Albums"></AlbumsComponent>
     </div>
 </div>
 
