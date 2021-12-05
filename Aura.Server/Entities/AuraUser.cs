@@ -6,15 +6,8 @@
 
     public class AuraUser: IdentityUser<Guid> {
 
-        public AuraUser()
-        {
-            SavedTracks = new List<Track>();
-            SavedAlbums = new List<Album>();
-            Playlists = new List<Playlist>();
-        }
-
-
         public virtual ICollection<Track> SavedTracks { get; set; }
+
         public virtual ICollection<Album> SavedAlbums { get; set; }
 
         public virtual ICollection<Playlist> Playlists { get; set; }

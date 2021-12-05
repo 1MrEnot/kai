@@ -3,13 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using Microsoft.AspNetCore.Identity;
 
     public class Playlist {
-
-        public Playlist()
-        {
-            Tracks = new List<Track>();
-        }
 
         public Guid Id { get; set; }
 
