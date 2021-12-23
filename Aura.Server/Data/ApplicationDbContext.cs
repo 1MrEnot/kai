@@ -18,8 +18,6 @@
 
         public DbSet<Album> Albums { get; set; } = null!;
 
-        public DbSet<Playlist> Playlists { get; set; } = null!;
-
         public DbSet<Track> Tracks { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -1,5 +1,5 @@
 ﻿@inject UserService _userService;
-<p> Станьте музыкантом сегодня! </p>
+<p> Become the author today! </p>
 
 <EditForm Model="_model" OnValidSubmit="RegisterAsAuthor">
     <DataAnnotationsValidator />
@@ -7,7 +7,7 @@
 
     <InputText id="nickname" @bind-Value="_model.Nickname" />
 
-    <button class="btn-success" type="submit">Стать музыкантом</button>
+    <button class="btn-success" type="submit">Become the author!</button>
 
 </EditForm>
 

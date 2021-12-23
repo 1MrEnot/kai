@@ -1,5 +1,6 @@
-﻿@using TagLib;
+﻿@using NAudio.Wave
 @inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
 @inject UserService _userService;
 @inject ILogger<AuthorTrackUpload> _logger;
 
@@ -9,26 +10,26 @@
 
     <p>
         <label>
-            Обложка
+            Cover
             <InputFile OnChange="UploadCover"></InputFile>
         </label>
     </p>
 
     <p>
         <label>
-            Трек
+            Track
             <InputFile OnChange="UploadTrack"></InputFile>
         </label>
     </p>
 
     <p>
         <label>
-            Название трека
+            Track name
             <InputText id="filename" @bind-Value="_trackModel.Name" />
         </label>
     </p>
 
-    <button class="btn-outline-primary" type="submit">Загрузить трек</button>
+    <button class="btn-outline-primary" type="submit">Upload track</button>
 
 </EditForm>
 
@@ -60,25 +61,38 @@
 
     private async Task CreateTrack()
     {
-        var author = await _dbContext.Authors.FindAsync(_author.Id);
-        var fileArray = await FileToByteArray(_trackModel.Track);
-        var coverArray = await FileToByteArray(_trackModel.Cover);
+        await using var trackStream = await FileToStream(_trackModel.Track);
+        await using var coverStream = await FileToStream(_trackModel.Cover);
 
-        var trackLength = 143;
+        var author = await _dbContext.Authors.FindAsync(_author.Id);
+        var fileArray = trackStream.ToArray();
+        var coverArray = coverStream.ToArray();
+
+        trackStream.Position = 0;
+        var reader = new Mp3FileReader(trackStream);
+        var trackLength = (int)reader.TotalTime.TotalSeconds;
 
         var track = new Track
         {
             Id = Guid.NewGuid(),
-            File = fileArray,
-            Cover = coverArray,
             Name = _trackModel.Name,
             ReleaseDate = DateTime.Today,
-            Duration = trackLength,
             Author = author
+        };
+
+        var trackData = new TrackData
+        {
+            Id = track.Id,
+            Cover = coverArray,
+            Duration = trackLength,
+            File = fileArray
         };
 
         _dbContext.Tracks.Add(track);
         await _dbContext.SaveChangesAsync();
+
+        _trackDataDbContext.TrackDatas.Add(trackData);
+        await _trackDataDbContext.SaveChangesAsync();
 
         OnTrackCreated();
         _logger.LogInformation("Трек создан");
@@ -86,10 +100,16 @@
 
     private async Task<byte[]> FileToByteArray(IBrowserFile file)
     {
-        await using var memoryStream = new MemoryStream();
+        await using var stream = await FileToStream(file);
+        return stream.ToArray();
+    }
+
+    private async Task<MemoryStream> FileToStream(IBrowserFile file)
+    {
+        var memoryStream = new MemoryStream();
         var fileSteam = file.OpenReadStream(8*1024*1024*100);
         await fileSteam.CopyToAsync(memoryStream);
-        return memoryStream.ToArray();
+        return memoryStream;
     }
 
     private class CreateTrackModel

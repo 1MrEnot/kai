@@ -1,6 +1,7 @@
 ﻿namespace Aura.Server.Models.Mapping
 {
     using System.Linq;
+    using Data;
     using Entities;
 
     public static class AuthorMapping
@@ -10,12 +11,13 @@
             return new(author.Id, author.Nickname);
         }
 
-        public static AuthorProfileModel MapAuthorProfileModel(this Author author)
+        public static AuthorProfileModel MapAuthorProfileModel(this Author author,
+            TrackDataDbContext trackDataDbContext)
         {
             return new(
                 author.Id,
                 author.Nickname,
-                author.Tracks.Select(t => t.MapTrackModel()).ToList(),
+                author.Tracks.Select(t => t.MapTrackModel(trackDataDbContext)).ToList(),
                 author.Albums.Select(a => a.MapAlbumModel()).ToList()
                 );
         }

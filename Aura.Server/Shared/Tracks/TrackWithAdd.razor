@@ -1,5 +1,6 @@
 ﻿@inject UserService _userService;
 @inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
 
 <TrackComponent Track="Track">
     <td><button class="btn-outline-primary" onclick="@_addHandler">@GetSymbol()</button></td>
@@ -11,6 +12,7 @@
     {
         _addHandler = () =>
         {
+            var trackData = _trackDataDbContext.TrackDatas.Find(Track.Id);
             var track = _dbContext.Tracks.Find(Track.Id);
             var user = _dbContext.Users.Find(User.Id);
             if (User.SavedTracks.Select(t => t.Id).Any(id => id == Track.Id))
@@ -21,7 +23,7 @@
             else
             {
                 user.SavedTracks.Add(track);
-                User.SavedTracks.Add(track.MapTrackModel());
+                User.SavedTracks.Add(track.MapTrackModel(trackData));
             }
             _dbContext.SaveChanges();
         };

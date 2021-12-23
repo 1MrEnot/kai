@@ -2,14 +2,14 @@
 
 <div class="row">
     <div class="col">
-        <h4>Треки</h4>
+        <h4>Tracks</h4>
         <div class="mb-3">
             <AuthorTrackUpload OnTrackCreated="@_onCreated"></AuthorTrackUpload>
         </div>
         <AuthorTracks Tracks="_author.Tracks.ToList()"></AuthorTracks>
     </div>
     <div class="col">
-        <h4>Альбомы</h4>
+        <h4>Albums</h4>
         <div class="mb-3">
             <AuthorAlbumUpload OnAlbumCreated="@_onCreated"></AuthorAlbumUpload>
         </div>

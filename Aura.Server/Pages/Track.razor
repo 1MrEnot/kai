@@ -1,5 +1,6 @@
 ﻿@page "/Track/{id:guid}"
 @inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
 
 <h3>@_track.Title</h3>
 
@@ -12,6 +13,7 @@
 
     protected override void OnInitialized()
     {
-        _track = _dbContext.Tracks.Find(Id).MapTrackModel();
+        var trackData = _trackDataDbContext.TrackDatas.Find(Id);
+        _track = _dbContext.Tracks.Find(Id).MapTrackModel(trackData);
     }
 }

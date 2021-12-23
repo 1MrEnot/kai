@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +28,17 @@ namespace Aura.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("PostgresTest")));
+            {
+                var appDbContextConnnectionString = Configuration.GetConnectionString("PostgresTest");
+                options.UseNpgsql(appDbContextConnnectionString);
+            });
+
+            services.AddDbContext<TrackDataDbContext>(options =>
+            {
+                var appDbContextConnnectionString = Configuration.GetConnectionString("TrackData");
+                options.UseNpgsql(appDbContextConnnectionString);
+            });
+
             services
                 .AddDefaultIdentity<AuraUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();

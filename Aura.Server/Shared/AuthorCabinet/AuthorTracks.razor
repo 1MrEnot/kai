@@ -1,4 +1,5 @@
 ﻿@inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
 
 @if (Tracks.Any())
 {
@@ -13,7 +14,7 @@
 }
 else
 {
-    <p>Нет треков</p>
+    <p>No tracks</p>
 }
 
 @code {
@@ -28,7 +29,13 @@ else
             var track  = _dbContext.Tracks.Find(trackToDelete.Id);
             _dbContext.Tracks.Remove(track);
             _dbContext.SaveChanges();
+
+            var trackInfo = _trackDataDbContext.TrackDatas.Find(trackToDelete.Id);
+            _trackDataDbContext.TrackDatas.Remove(trackInfo);
+            _trackDataDbContext.SaveChanges();
+
             Tracks.Remove(trackToDelete);
+
             StateHasChanged();
         };
     }

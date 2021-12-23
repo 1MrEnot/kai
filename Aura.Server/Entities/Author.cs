@@ -4,7 +4,7 @@
 
     public class Author : AuraUser {
 
-        private Author()
+        public Author()
         {
             Tracks = new List<Track>();
             Albums = new List<Album>();
