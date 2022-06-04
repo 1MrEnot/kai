@@ -1,0 +1,7 @@
+﻿mac macro x y z=10
+jmp s1
+mend
+
+mac 10 z=109
+!!!
+jmp s1

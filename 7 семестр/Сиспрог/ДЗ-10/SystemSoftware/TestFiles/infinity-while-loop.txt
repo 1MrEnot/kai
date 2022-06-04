@@ -1,0 +1,13 @@
+﻿mac macro x
+    while x<3
+        inc x
+        jmp s1
+        set x 1
+    endw
+mend
+
+mac 1
+
+jmp s1
+jmp s1
+jmp s1

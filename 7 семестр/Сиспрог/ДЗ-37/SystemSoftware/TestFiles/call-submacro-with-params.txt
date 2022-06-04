@@ -1,0 +1,16 @@
+﻿mac macro x=
+    add r1 x
+    mac2 macro x=
+        add r1 x
+    mend
+    
+    mac2 x=200
+    mac2 x=108
+
+mend
+
+mac x=109
+
+add r1 109
+add r1 108
+add r1 200

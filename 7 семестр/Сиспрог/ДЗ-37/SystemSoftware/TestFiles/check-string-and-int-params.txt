@@ -1,0 +1,32 @@
+﻿prog1 start 100
+mac macro x y z= c=100 k=r1
+if x==k
+jmp s1
+else
+add y
+endif
+if z!=c
+jmp 109
+endif
+set x 1001
+add x
+set x r4
+add x
+set x 6
+while x<10
+add r1 x
+inc x
+endw
+mend
+
+mac r1 500 c=900 k=r1 z=109
+!!!
+PROG1 START 100
+JMP S1
+JMP 109
+ADD 1001
+ADD R4
+ADD R1 6
+ADD R1 7
+ADD R1 8
+ADD R1 9

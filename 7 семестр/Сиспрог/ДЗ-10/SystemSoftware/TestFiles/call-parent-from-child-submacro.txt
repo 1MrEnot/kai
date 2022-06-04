@@ -1,0 +1,26 @@
+﻿mac0 macro
+add r1 10900
+mend
+
+mac macro
+
+mac3
+
+mac2 macro
+jmp s2
+mac0
+mend
+
+mac3 macro
+mac4
+mac4 macro
+mac2
+mend
+mend
+
+mend
+
+mac
+!!!
+jmp s2
+add r1 10900

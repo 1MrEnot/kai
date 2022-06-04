@@ -1,0 +1,15 @@
+﻿mac macro
+mac2 macro
+mac3 macro
+m1: jmp s1
+m1: jmp s1
+mend
+mac3
+mend
+mac2
+mend
+
+mac
+!!!
+jmp s1
+jmp s1

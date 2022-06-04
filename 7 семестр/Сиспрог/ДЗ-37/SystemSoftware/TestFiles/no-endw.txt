@@ -1,0 +1,8 @@
+﻿mac macro x
+while x<109
+jmp s1
+mend
+
+mac 10
+!!!
+jmp s1

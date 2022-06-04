@@ -1,0 +1,15 @@
+﻿PROG1 START 100
+
+VAR G 4
+MAC MACRO
+    IF G==4
+        AGO M1
+    ELSE 
+        LOADR1 1
+    ENDIF
+
+    JMP M1
+    M1: LOADR1 2
+MEND
+
+MAC

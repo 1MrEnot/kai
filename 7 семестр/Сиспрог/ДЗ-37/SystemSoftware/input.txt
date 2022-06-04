@@ -1,0 +1,28 @@
+﻿PROG1 START 100
+M1: JMP M2
+VAR V 4
+VAR G 1
+
+MAC MACRO A=5 B=
+
+    M2: SAVER2 5
+    M3: JMP M1
+    SAVER1 4
+
+    MAC2 MACRO
+        JMP M0
+        JMP M2
+        JMP M9
+        SET G 5
+        SAVER1 G
+        M9: SAVER1 9
+        JMP M1
+    MEND
+    
+    MAC2
+    
+MEND
+
+MAC B=5
+
+END

@@ -1,0 +1,16 @@
+﻿mac macro x
+add x
+mac2 macro y
+add y
+mend
+mac2 5
+mend
+
+mac 10
+
+set x 10
+add 100
+!!!
+add 10
+add 5
+add 100

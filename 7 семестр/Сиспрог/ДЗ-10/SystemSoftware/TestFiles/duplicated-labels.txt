@@ -1,0 +1,9 @@
+﻿mac macro
+m1: jmp s1
+m1: jmp s1
+mend
+
+mac
+!!!
+jmp s1
+jmp s1

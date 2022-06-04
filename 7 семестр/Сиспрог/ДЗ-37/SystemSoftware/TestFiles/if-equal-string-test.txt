@@ -1,0 +1,29 @@
+﻿MAC2 MACRO G X=1 Y=8 Z=!=
+IF g==1
+ADD R1 g
+ENDIF
+
+IF X===
+ADD R1 X
+ENDIF
+
+IF Y=====!==
+ADD R1 Y
+ENDIF
+
+IF Y!====!==
+ADD R500 Y
+ENDIF
+
+IF z====
+ADD R1 z
+ENDIF
+
+MEND
+
+MAC2 1 z=== X== Y====!==
+!!!
+ADD R1 1
+ADD R1 =
+ADD R1 ===!==
+ADD R1 ==

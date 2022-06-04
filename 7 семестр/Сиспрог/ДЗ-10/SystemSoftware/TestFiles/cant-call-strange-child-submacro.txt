@@ -1,0 +1,18 @@
+﻿mac macro
+
+mac4
+
+mac2 macro
+mend
+
+mac3 macro
+mac4 macro
+jmp s4
+mend
+mend
+
+mend
+
+mac
+!!!
+jmp s4

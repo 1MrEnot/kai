@@ -1,0 +1,26 @@
+﻿var v 10
+
+mac macro x
+while x<10
+add x v
+inc x
+inc v
+endw
+set v 110
+set x 8
+while x<10
+add x v
+inc x
+inc v
+endw
+mend
+
+mac 5
+!!!
+ADD 5 10
+ADD 6 11
+ADD 7 12
+ADD 8 13
+ADD 9 14
+ADD 8 110
+ADD 9 111

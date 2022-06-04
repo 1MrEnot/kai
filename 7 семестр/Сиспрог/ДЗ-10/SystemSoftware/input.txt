@@ -1,0 +1,33 @@
+﻿PROG1 START 100
+M1: JMP M2
+
+MAC MACRO A=5 B=
+    VAR V 4
+    IF V<A
+        ADD R1 V
+    ELSE
+        ADD R2 V
+    ENDIF
+
+    AIF A==4 MIF
+    SAVER1 4
+    MIF: SAVER1 5
+    
+    AGO MA
+    SAVER1 1000000
+    MA: SAVER1 2
+MEND
+
+VAR G 1
+
+MAC B=5
+
+MAC2 MACRO
+    ADD a b
+    SET G 5
+    SAVER1 G
+MEND
+
+MAC2
+
+END

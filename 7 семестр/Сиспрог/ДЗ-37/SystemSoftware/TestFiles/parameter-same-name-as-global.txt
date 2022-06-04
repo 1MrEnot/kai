@@ -1,0 +1,8 @@
+﻿var x 10
+mac macro x
+jmp s1
+mend
+
+mac
+!!!
+jmp s1

@@ -1,0 +1,17 @@
+﻿mac macro x y z=10 a=20 b=30 c=40
+jmp x
+jmp y
+jmp z
+jmp a
+jmp b
+jmp c
+mend
+
+mac 90 100 b=140 z=708
+!!!
+jmp 90
+jmp 100
+jmp 708
+jmp 20
+jmp 140
+jmp 40

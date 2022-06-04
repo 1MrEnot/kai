@@ -1,0 +1,11 @@
+﻿mac macro
+jmp s1
+mend
+
+mac2 macro
+mend
+mend
+
+mac
+!!!
+jmp s1

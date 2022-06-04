@@ -1,0 +1,13 @@
+PROG1 START 100
+VAR C 1
+VAR A 2
+
+MAC MACRO
+    AGO M2
+    ADD 1 2
+    M2: JMP M1
+MEND
+
+MAC
+
+END

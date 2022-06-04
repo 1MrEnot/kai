@@ -1,0 +1,43 @@
+﻿
+mac3 macro
+M1: JMP M200
+M2: JMP M100
+mend
+
+mac macro
+M1: JMP M2
+M2: JMP M1
+
+
+mac3 macro
+M1: JMP M300
+M2: JMP M400
+mend
+
+mac3
+
+mac2 macro
+M1: JMP M2
+M2: JMP M1
+mac3 macro
+M1: JMP M200
+JMP M1
+mend
+mac3
+mend
+mac2
+mend
+
+mac
+mac3
+!!!
+$_M1_MAC_1: JMP $_M2_MAC_2
+$_M2_MAC_2: JMP $_M1_MAC_1
+$_M1_MAC3_2_1: JMP M300
+$_M2_MAC3_2_2: JMP M400
+$_M1_MAC2_2_1: JMP $_M2_MAC2_2_2
+$_M2_MAC2_2_2: JMP $_M1_MAC2_2_1
+$_M1_MAC3_2_2_1: JMP M200
+JMP $_M1_MAC3_2_2_1
+$_M1_MAC3_1: JMP M200
+$_M2_MAC3_2: JMP M100
