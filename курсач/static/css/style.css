@@ -1,0 +1,15 @@
+.ticket-list {
+    background-color: beige;
+}
+
+.ticket-item {
+    background-color: brown;
+}
+
+.wrapper {
+    display: grid;
+}
+
+.block{
+    display: block;
+}

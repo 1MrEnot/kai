@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="css/style.css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/admin.js"></script>
+
+    <title>Planer: Администратор</title>
+</head>
+<body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+        <div class="container-sm container-fluid">
+            <a class="navbar-brand" href="#">Planer</a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="#">АДМИНИСТРАТОР</a>
+                <a class="nav-link" href="index.html">Выход</a>
+              </div>
+          </div>
+    </nav>
+
+    <div class="container-sm">
+        <div class="row my-2">
+
+            <div class="col-xxl-4 search">
+
+                <h2>Добавление билетов</h2>
+
+                <!-- Города вылета и прилёта-->
+                <div class="row my-2">
+                    <div class="col d-flex">
+                        <input id="fromInput" class="flex-fill" type="search" placeholder="Откуда">
+                    </div>
+                    <div class="col d-flex">
+                        <input id="toInput" class="flex-fill" type="search" placeholder="Куда">
+                    </div>
+                </div>
+
+                <!-- Дата вылета -->
+                <div class="row my-2">
+                    <div>
+                        Вылет
+                    </div>
+                    <div class="col d-flex">
+                        <input id="whenInput" class="form-inline flex-fill" type="datetime-local" placeholder="Дата вылета">
+                    </div>
+                </div>
+
+                <div class="row my-2">
+                    <div>
+                        Время полёта
+                    </div>
+                    <div class="col d-flex">
+                        <input id="lengthInput" class="flex-fill" type="time" placeholder="Время полёта">
+                    </div>
+                </div>
+
+                <!-- Бизнес класс -->
+                <div class="row my-2">
+                    <div>
+                        Бизнес:
+                    </div>
+                    <div class="col d-flex">
+                        <input id="businessAmountInput" class="form-inline flex-fill" type="number" placeholder="Колличество билетов">
+                    </div>
+                    <div class="col d-flex">
+                        <input id="businessCostInput" class="form-inline flex-fill" type="number" placeholder="Цена билета">
+                    </div>
+                </div>
+
+                <!-- Эконом класс -->
+                <div class="row my-2">
+                    <div>
+                        Эконом:
+                    </div>
+                    <div class="col d-flex">
+                        <input id="economyAmountInput" class="form-inline flex-fill" type="number" placeholder="Колличество билетов">
+                    </div>
+                    <div class="col d-flex">
+                        <input id="economyCostInput" class="form-inline flex-fill" type="number" placeholder="Цена билета">
+                    </div>
+                </div>
+
+                <!-- Добавление -->
+                <div class="row my-2">
+                    <div class="col d-flex">
+                        <input id="addButton" class="flex-fill" type="button" value="Добавить">
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Колонка билетов -->
+            <div id="ticket-list" class="col-xxl-8">
+                <h2>Свободные билеты</h2>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+</body>
+</html>
