@@ -1,0 +1,94 @@
+﻿@inject ApplicationDbContext _dbContext;
+@inject UserService _userService;
+@inject ILogger<AuthorAlbumUpload> _logger;
+
+<EditForm Model="_album" OnValidSubmit="CreateAlbum">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <label>
+        Album name
+        <InputText @bind-Value="_album.Name"></InputText>
+    </label>
+
+    <div id="checkboxes">
+        @foreach (var item in _authorTrackNames)
+        {
+            <div>
+                <label for="@item.Text">
+                    @if (item.Selected)
+                    {
+                        <input type="checkbox" checked="checked" @onchange="@(e => CheckboxChanged(e, item.Text))" />
+                    }
+                    else
+                    {
+                        <input type="checkbox" @onchange="@(e => CheckboxChanged(e, item.Text))" />
+                    }
+                    @item.Text
+                </label>
+            </div>
+        }
+    </div>
+
+    <button class="btn-outline-primary" type="submit">Create an album</button>
+
+</EditForm>
+
+@code {
+
+    [Parameter]
+    public Action OnAlbumCreated { get; set; } = () => { };
+
+    private MultiSelectList _authorTrackNames;
+    private AuthorProfileModel _author;
+    private AlbumModel _album = new();
+
+    protected override void OnInitialized()
+    {
+        _author = _userService.GetAsAuthor();
+        _authorTrackNames = new MultiSelectList(_author.Tracks.Select(t => t.Title));
+    }
+
+    private void CreateAlbum()
+    {
+        var selectedNames = _authorTrackNames
+            .Where(el => el.Selected)
+            .Select(el => el.Text)
+            .ToHashSet();
+        var selectedTrackIds = _author.Tracks
+            .Where(t => selectedNames.Contains(t.Title))
+            .Select(t => t.Id)
+            .ToHashSet();
+
+        var album = new Album
+        {
+            Id = Guid.NewGuid(),
+            Author = _dbContext.Authors.Single(a => a.Id == _author.Id),
+            Name = _album.Name,
+            Tracks = _dbContext.Tracks.Where(t => selectedTrackIds.Contains(t.Id)).ToList(),
+            ReleaseDate = DateTime.Today
+        };
+        _dbContext.Add(album);
+        _dbContext.SaveChanges();
+        OnAlbumCreated();
+        _logger.LogInformation("Альбом создан");
+    }
+
+    private void CheckboxChanged(ChangeEventArgs e, string key)
+    {
+        var i = _authorTrackNames.FirstOrDefault(t => t.Text == key);
+        if (i != null)
+        {
+            i.Selected = !i.Selected;
+        }
+    }
+
+    private class AlbumModel
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public IEnumerable<Guid> TrackIds { get; set; } = new Guid[0];
+    }
+}

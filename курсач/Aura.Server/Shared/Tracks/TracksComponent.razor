@@ -1,0 +1,20 @@
+﻿@if (Tracks.Any())
+{
+    <table class="table">
+        <tbody>
+        @foreach (var track in Tracks)
+        {
+            <TrackComponent Track=@track></TrackComponent>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No tracks</p>
+}
+
+@code {
+    [Parameter]
+    public List<TrackModel> Tracks { get; set; }
+}

@@ -1,0 +1,31 @@
+﻿@inject UserService _userService;
+<p> Become the author today! </p>
+
+<EditForm Model="_model" OnValidSubmit="RegisterAsAuthor">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="nickname" @bind-Value="_model.Nickname" />
+
+    <button class="btn-success" type="submit">Become the author!</button>
+
+</EditForm>
+
+@code{
+
+    [Parameter]
+    public Action OnAuthorBecame { get; set; } = () => { };
+    private Model _model = new();
+
+    private void RegisterAsAuthor()
+    {
+        _userService.MakeAuthor(_model.Nickname);
+        OnAuthorBecame();
+    }
+
+    private class Model
+    {
+        [Required]
+        public string Nickname;
+    }
+}

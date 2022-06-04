@@ -1,0 +1,14 @@
+﻿@page "/Saved"
+@inject UserService _userService;
+
+<TracksWithAdd User="@_user" Tracks="@_user.SavedTracks"></TracksWithAdd>
+
+@code {
+
+    private UserModel _user;
+
+    protected override void OnInitialized()
+    {
+        _user = _userService.GetUser();
+    }
+}

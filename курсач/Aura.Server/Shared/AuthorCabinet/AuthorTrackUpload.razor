@@ -1,0 +1,126 @@
+﻿@using NAudio.Wave
+@inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
+@inject UserService _userService;
+@inject ILogger<AuthorTrackUpload> _logger;
+
+<EditForm Model="_trackModel" OnValidSubmit="CreateTrack">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+    <p>
+        <label>
+            Cover
+            <InputFile OnChange="UploadCover"></InputFile>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Track
+            <InputFile OnChange="UploadTrack"></InputFile>
+        </label>
+    </p>
+
+    <p>
+        <label>
+            Track name
+            <InputText id="filename" @bind-Value="_trackModel.Name" />
+        </label>
+    </p>
+
+    <button class="btn-outline-primary" type="submit">Upload track</button>
+
+</EditForm>
+
+
+
+@code {
+
+    [Parameter]
+    public Action OnTrackCreated { get; set; } = () => {};
+    private AuthorProfileModel _author;
+    private CreateTrackModel _trackModel = new();
+
+    protected override void OnInitialized()
+    {
+        _author = _userService.GetAsAuthor();
+    }
+
+    private void UploadCover(InputFileChangeEventArgs args)
+    {
+        _trackModel.Cover = args.File;
+        _logger.LogInformation("Обложка загружена");
+    }
+
+    private void UploadTrack(InputFileChangeEventArgs args)
+    {
+        _trackModel.Track = args.File;
+        _logger.LogInformation("Трек загружен");
+    }
+
+    private async Task CreateTrack()
+    {
+        await using var trackStream = await FileToStream(_trackModel.Track);
+        await using var coverStream = await FileToStream(_trackModel.Cover);
+
+        var author = await _dbContext.Authors.FindAsync(_author.Id);
+        var fileArray = trackStream.ToArray();
+        var coverArray = coverStream.ToArray();
+
+        trackStream.Position = 0;
+        var reader = new Mp3FileReader(trackStream);
+        var trackLength = (int)reader.TotalTime.TotalSeconds;
+
+        var track = new Track
+        {
+            Id = Guid.NewGuid(),
+            Name = _trackModel.Name,
+            ReleaseDate = DateTime.Today,
+            Author = author
+        };
+
+        var trackData = new TrackData
+        {
+            Id = track.Id,
+            Cover = coverArray,
+            Duration = trackLength,
+            File = fileArray
+        };
+
+        _dbContext.Tracks.Add(track);
+        await _dbContext.SaveChangesAsync();
+
+        _trackDataDbContext.TrackDatas.Add(trackData);
+        await _trackDataDbContext.SaveChangesAsync();
+
+        OnTrackCreated();
+        _logger.LogInformation("Трек создан");
+    }
+
+    private async Task<byte[]> FileToByteArray(IBrowserFile file)
+    {
+        await using var stream = await FileToStream(file);
+        return stream.ToArray();
+    }
+
+    private async Task<MemoryStream> FileToStream(IBrowserFile file)
+    {
+        var memoryStream = new MemoryStream();
+        var fileSteam = file.OpenReadStream(8*1024*1024*100);
+        await fileSteam.CopyToAsync(memoryStream);
+        return memoryStream;
+    }
+
+    private class CreateTrackModel
+    {
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public IBrowserFile Cover { get; set; }
+
+        [Required]
+        public IBrowserFile Track { get; set; }
+    }
+}

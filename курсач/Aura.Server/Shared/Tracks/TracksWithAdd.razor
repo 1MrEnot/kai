@@ -1,0 +1,23 @@
+﻿@if (Tracks.Any())
+{
+    <table class="table">
+        <tbody>
+        @foreach (var track in Tracks)
+        {
+            <TrackWithAdd User="User" Track="@track"></TrackWithAdd>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No tracks</p>
+}
+
+@code {
+    [Parameter]
+    public UserModel User { get; set; }
+
+    [Parameter]
+    public List<TrackModel> Tracks { get; set; }
+}

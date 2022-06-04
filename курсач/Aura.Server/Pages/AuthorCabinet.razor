@@ -1,0 +1,32 @@
+﻿@page "/AuthorCabinet"
+@inject UserService _userService;
+
+@if (_isAuthor)
+{
+    <AuthorManaging></AuthorManaging>
+}
+else
+{
+    <BecomeAuthor OnAuthorBecame=@_onAuthorBecame></BecomeAuthor>
+}
+
+@code {
+
+    private bool _isAuthor;
+    private readonly Action _onAuthorBecame;
+
+    public AuthorCabinet()
+    {
+        _onAuthorBecame = () =>
+        {
+            _isAuthor = true;
+            StateHasChanged();
+        };
+    }
+
+    protected override void OnInitialized()
+    {
+        _isAuthor = _userService.IsAuthor();
+        StateHasChanged();
+    }
+}

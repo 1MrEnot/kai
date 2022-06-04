@@ -1,0 +1,20 @@
+﻿@if (Albums.Any())
+{
+    <table class="table">
+        <tbody>
+        @foreach (var album in Albums)
+        {
+            <AlbumComponent Album=@album></AlbumComponent>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No albums</p>
+}
+
+@code {
+    [Parameter]
+    public List<AlbumModel> Albums { get; set; }
+}

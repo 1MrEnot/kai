@@ -1,0 +1,23 @@
+﻿@if (Albums.Any())
+{
+    <table class="table">
+        <tbody>
+        @foreach (var album in Albums)
+        {
+            <AlbumWithAdd User="User" Album="@album"></AlbumWithAdd>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No albumns</p>
+}
+
+@code {
+    [Parameter]
+    public UserModel User { get; set; }
+
+    [Parameter]
+    public List<AlbumModel> Albums { get; set; }
+}

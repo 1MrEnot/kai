@@ -1,0 +1,13 @@
+﻿<tr>
+    <td><a href="/Author/@Album.Author.Id">@Album.Author.Name</a></td>
+    <td><a href="/Album/@Album.Id">@Album.Title</a></td>
+    @ChildContent
+</tr>
+
+@code {
+    [Parameter]
+    public AlbumModel Album { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+}

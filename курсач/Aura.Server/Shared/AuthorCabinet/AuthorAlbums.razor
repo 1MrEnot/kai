@@ -1,0 +1,33 @@
+﻿@inject ApplicationDbContext _dbContext;
+
+@if (Albums.Any())
+{
+    <table class="table">
+        <tbody>
+        @foreach (var album in Albums) {
+            <AlbumWithDelete Album=@album DeleteHandler="@GetDeleteHandler(album)"></AlbumWithDelete>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No albums</p>
+}
+
+@code {
+    [Parameter]
+    public List<AlbumModel> Albums { get; set; }
+
+    private Action GetDeleteHandler(AlbumModel albumToDelete)
+    {
+        return () =>
+        {
+            var album = _dbContext.Albums.Find(albumToDelete.Id);
+            _dbContext.Albums.Remove(album);
+            _dbContext.SaveChanges();
+            Albums.Remove(albumToDelete);
+            StateHasChanged();
+        };
+    }
+}

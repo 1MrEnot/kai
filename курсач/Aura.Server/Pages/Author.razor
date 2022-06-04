@@ -1,0 +1,34 @@
+﻿@page "/Author/{id:guid}"
+@inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
+@inject UserService _userService;
+
+<h3>@_author.Name</h3>
+
+<h2>Tracks</h2>
+<TracksWithAdd Tracks="@_author.Tracks" User="@_user"></TracksWithAdd>
+
+<h2>Albums</h2>
+<AlbumsWithAdd Albums="@_author.Albums" User="@_user"></AlbumsWithAdd>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private UserModel _user;
+
+    private AuthorProfileModel _author = new(
+        Guid.Empty,
+        string.Empty,
+        new List<TrackModel>(),
+        new List<AlbumModel>()
+        );
+
+    protected override void OnInitialized()
+    {
+        _user = _userService.GetUser();
+        _author = _dbContext.Authors
+            .Find(Id)
+            .MapAuthorProfileModel(_trackDataDbContext);
+    }
+}

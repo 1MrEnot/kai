@@ -1,0 +1,28 @@
+﻿@page "/Album/{id:guid}"
+@inject ApplicationDbContext _dbContext;
+@inject TrackDataDbContext _trackDataDbContext;
+@inject UserService _userService;
+
+<h3>@_album.Title</h3>
+<h4>Release date: @_album.ReleaseDate.ToShortDateString()</h4>
+
+<TracksWithAdd User="@_user" Tracks="@_album.Tracks"></TracksWithAdd>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private AlbumReleaseModel _album;
+    private UserModel _user;
+
+    protected override void OnInitialized()
+    {
+        _album = _dbContext.Albums
+            .Include(a => a.Tracks).Single(a => a.Id == Id)
+            .MapAlbumReleaseModel(_trackDataDbContext);
+
+        _user = _userService.GetUser();
+    }
+
+
+}
