@@ -1,9 +1,13 @@
 **/.vs
 **/.idea
 **/.vscode
-**/bin
+
+# dotnet dll and exe
 **/bin
 **/obj
+
+# java binaries
+**/classes
 
 # in ruby bin is not for compiled binaries
 !7 семестр/Веб/bin
