@@ -8,6 +8,7 @@
 
 # java binaries
 **/classes
+**/out
 
 # in ruby bin is not for compiled binaries
 !7 семестр/Веб/bin
