@@ -179,7 +179,6 @@ namespace SystemSoftware.Common
 			first = "";
 			second = "";
 			sign = "";
-			int temp;
 			foreach (var sgn in ComparisonSigns)
 			{
 				if ((arr = str.Split(new string[] { sgn }, StringSplitOptions.None)).Length > 1)

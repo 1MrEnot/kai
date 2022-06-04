@@ -61,7 +61,7 @@ namespace SystemSoftware.Interface
 			{			
 				throw new CustomException($@"{ex.Message}");
 			}
-			catch (Exception e)
+			catch (Exception)
 			{				
 				throw new CustomException($@"{ProcessorErrorMessages.ErrorInLinePrefix} {SourceCode.SourceCodeLines[SourceCodeIndex - 1]}");
 			}
