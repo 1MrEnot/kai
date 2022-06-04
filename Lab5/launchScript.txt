@@ -1,0 +1,2 @@
+server
+java -cp .\src;.\out\production\lab5\engine;.\out\production\lab5;.\common -Djava.security.policy=.\all.policy -Djava.rmi.server.hostname=localhost engine.ComputeEngine
